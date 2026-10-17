@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+import Banner from '../../components/Banner.astro';
+import Img from '../../components/Img.astro';
+import { listings, areas, areaBySlug, newest, priceText, numWord, cap } from '../../lib/data';
+
+const n = listings.length;
+const lead = `${cap(numWord(n))} homes in ${numWord(areas.length)} neighbourhoods, for sale and to rent.`;
+const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
+---
+<Base title="Properties for sale and to rent in Dublin — Monument" description={`${cap(numWord(n))} homes in ${numWord(areas.length)} Dublin neighbourhoods, for sale and to rent. Filter by area, price, bedrooms and type.`}>
+  <Banner page="properties" eyebrow="Monument · Dublin" title="Our properties." lead={lead} photo={{ file: 'AREA-RAT.webp', alt: areaBySlug('rathmines').photoAlt }} />
+
+  <div class="wrap" style="margin-top:56px">
+    <div class="fbar" id="fbar">
+      <div class="seg" role="group" aria-label="Sale or rent">
+        <button type="button" data-status="sale" aria-pressed="true">For sale</button>
+        <button type="button" data-status="rent" aria-pressed="false">To rent</button>
+      </div>
+      <button type="button" class="fopen" id="fopen" aria-controls="filters" aria-expanded="false">Filters</button>
+      <div class="filters" id="filters" role="group" aria-label="Filters">
+        <div class="fhead"><span style="font:400 32px/1 var(--font-display)">Filters</span><button type="button" class="chip" id="fclose">Close</button></div>
+        <div class="fdd" id="fdd"></div>
+        <div class="ffoot"><button type="button" class="btn btn-block" id="fshow">Show homes</button></div>
+      </div>
+    </div>
+
+    <div class="rbar">
+      <p class="rtext" id="rtext" aria-live="polite"></p>
+      <button type="button" class="clear" id="clear" hidden>Clear filters</button>
+      <div class="sort"><span class="meta" id="sortlbl">Sort</span>
+        <div role="group" aria-labelledby="sortlbl" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="chip" data-sort="newest" aria-pressed="true">Newest</button>
+          <button type="button" class="chip" data-sort="price-asc" aria-pressed="false">Price ↑</button>
+          <button type="button" class="chip" data-sort="price-desc" aria-pressed="false">Price ↓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="plist" id="plist">
+      {newest.map((l) => {
+        const a = areaBySlug(l.area);
+        return (
+          <a class="prow" href={`/properties/${l.slug}/`} data-slug={l.slug} data-status={l.status} data-area={l.area} data-type={l.type} data-price={l.price} data-beds={l.beds} data-listed={l.listed}
+            data-search={`${l.address} ${a.name} ${l.district} ${l.type} ${l.kind}`}>
+            <div class="p-addr"><strong>{l.address}</strong><span>{a.name} · {l.district}</span></div>
+            <div class="p-price num">{priceText(l)}</div>
+            <div class="p-meta num">{l.beds} bed · {l.size} m² · BER {l.ber}</div>
+            <div class="p-vis">
+              <div class="strip">
+                <Img file={l.photos[2].file} alt="" class="ph3" sizes="(max-width: 768px) 90vw, 360px" />
+                <Img file={l.photos[1].file} alt="" class="ph2" sizes="(max-width: 768px) 90vw, 360px" />
+                <Img file={l.photos[0].file} alt={l.photos[0].alt} class="ph1" sizes="(max-width: 768px) 90vw, 360px" />
+              </div>
+              <span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+    <div class="empty" id="empty" hidden>
+      <p style="font:400 32px/1.15 var(--font-display)">No homes match these filters.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+        <button type="button" class="btn btn-ghost" id="clear2">Clear filters</button>
+        <a class="btn" href="/contact/">Tell us what you're looking for</a>
+      </div>
+    </div>
+
+    <div class="pend">
+      <p style="font:400 32px/1.2 var(--font-display);max-width:760px">Not seeing the right home? Tell us what you need and we'll call you when it comes in.</p>
+      <a href="/contact/" class="btn btn-ghost btn-lg">Contact us</a>
+    </div>
+  </div>
+
+  <script type="application/json" id="pcfg" set:html={JSON.stringify(cfg)}></script>
+  <script>import '../../scripts/properties';</script>
+</Base>
+
+<style is:global>
+.fbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.seg{display:inline-flex;height:60px;border:1px solid var(--line-strong);border-radius:999px;padding:4px;gap:4px}
+.seg button{padding:0 24px;border-radius:999px;font:600 15px/1 var(--font-body);min-width:44px}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.filters{display:contents}
+.fhead,.ffoot,.fopen{display:none}
+.fdd{display:contents}
+.dd{position:relative}
+.dd-btn{height:60px;min-width:160px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px 0 22px;border:1px solid var(--line-strong);border-radius:999px;background:#fff;text-align:left}
+.dd-btn.set{border-color:var(--ink)}
+.dd-btn .l{display:block;font:500 12px/1.2 var(--font-body);color:var(--text-3)}
+.dd-btn .v{display:block;font:600 15px/1.3 var(--font-body);white-space:nowrap}
+.dd-btn svg{flex:none}
+.dd-panel{position:absolute;z-index:30;top:calc(100% + 8px);left:0;min-width:240px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;display:flex;gap:8px}
+.dd-panel[hidden]{display:none}
+.dd-grp{flex:1;min-width:200px}
+.dd-grp .gl{font:600 12px/1 var(--font-body);color:var(--text-3);padding:10px 14px 6px;letter-spacing:.04em}
+.dd-opt{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:44px;padding:0 14px;border-radius:12px;font:500 15px/1 var(--font-body);text-align:left}
+.dd-opt:hover,.dd-opt:focus-visible{background:var(--soft)}
+.dd-opt[aria-selected=true]{background:var(--soft);font-weight:600}
+.dd-opt[aria-selected=true]::after{content:'✓'}
+.rbar{margin-top:40px;padding-bottom:18px;border-bottom:1px solid var(--ink);display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px}
+.rtext{font:500 17px/1.4 var(--font-body)}
+.rtext b{font-weight:700}
+.clear{color:var(--text-3);text-decoration:underline;text-underline-offset:3px;font-size:15px;min-height:44px}
+.sort{margin-left:auto;display:flex;align-items:center;gap:12px}
+.sort .chip{min-height:40px;padding:0 16px;font-size:14px}
+.prow{display:grid;grid-template-columns:4fr 2fr 2.2fr 3fr;gap:24px;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line);border-radius:0;transition:background var(--t-fast),border-radius var(--t-fast)}
+.prow[hidden]{display:none}
+.p-addr strong{display:block;font:600 20px/1.3 var(--font-body);transition:font-weight var(--t-fast)}
+.p-addr span{display:block;font-size:14px;color:var(--text-3);margin-top:2px}
+.p-price{font:600 18px/1.3 var(--font-body)}
+.p-meta{font-size:14px;color:var(--text-3)}
+.p-vis{position:relative}
+.strip{position:relative;height:150px}
+.strip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px;transition:transform var(--t-base) var(--ease),opacity var(--t-base) var(--ease),box-shadow var(--t-base) var(--ease)}
+.strip .ph2,.strip .ph3{opacity:0}
+.dots{display:none}
+@media (hover:hover) and (pointer:fine){
+  .prow:hover,.prow:focus-visible{background:var(--soft);border-radius:20px;outline:none}
+  .prow:hover .p-addr strong,.prow:focus-visible .p-addr strong,.prow:hover .p-price,.prow:focus-visible .p-price{font-weight:700}
+  .prow:hover .p-meta,.prow:focus-visible .p-meta{color:var(--text-2)}
+  .prow:hover .ph1,.prow:focus-visible .ph1{transform:scale(.9);box-shadow:0 8px 22px rgba(14,14,14,.16)}
+  .prow:hover .ph3,.prow:focus-visible .ph3{opacity:1;transform:translate(-14px,2px) rotate(-3.5deg) scale(.9);box-shadow:0 6px 18px rgba(14,14,14,.12)}
+  .prow:hover .ph2,.prow:focus-visible .ph2{opacity:1;transform:translate(14px,2px) rotate(3deg) scale(.9);box-shadow:0 6px 18px rgba(14,14,14,.12)}
+}
+@media (prefers-reduced-motion:reduce){
+  .prow:hover .ph1,.prow:hover .ph2,.prow:hover .ph3,.prow:focus-visible .ph1,.prow:focus-visible .ph2,.prow:focus-visible .ph3{transform:none!important;box-shadow:none!important}
+  .prow:hover .ph2,.prow:hover .ph3,.prow:focus-visible .ph2,.prow:focus-visible .ph3{opacity:0!important}
+}
+.empty{padding:72px 0}
+.empty[hidden]{display:none}
+.pend{margin-top:96px;margin-bottom:var(--section);display:flex;justify-content:space-between;align-items:center;gap:40px}
+@media (max-width:1100px){
+  .prow{grid-template-columns:3fr 2fr 2fr}
+  .prow .p-vis{grid-column:1/-1}
+}
+@media (max-width:768px){
+  .seg{height:52px}.seg button{padding:0 18px}
+  .fopen{display:inline-flex;align-items:center;height:52px;padding:0 24px;border:1px solid var(--line-strong);border-radius:999px;font:600 15px/1 var(--font-body)}
+  .filters{display:none;position:fixed;inset:0;z-index:90;background:#fff;overflow:auto;padding:20px 20px 110px}
+  .filters.open{display:block}
+  .fhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+  .fdd{display:flex;flex-direction:column;gap:12px}
+  .dd-btn{width:100%}
+  .dd-panel{position:static;margin-top:8px;flex-direction:column}
+  .ffoot{display:block;position:fixed;left:0;right:0;bottom:0;padding:16px 20px;background:#fff;border-top:1px solid var(--line)}
+  .sort{margin-left:0;width:100%}
+  .prow{grid-template-columns:1fr auto;gap:10px 12px;padding:0 0 28px;border-bottom:0;align-items:start}
+  .prow .p-vis{grid-column:1/-1;order:-1}
+  .p-addr{grid-column:1}.p-price{grid-column:2;grid-row:2}.p-meta{grid-column:1/-1;grid-row:3;margin-top:-6px}
+  .strip{height:auto;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:16px}
+  .strip::-webkit-scrollbar{display:none}
+  .strip img{position:static;min-width:0;width:calc(100% - 22px);height:auto;flex:0 0 calc(100% - 22px);aspect-ratio:4/3;scroll-snap-align:start;border-radius:16px;opacity:1!important;transform:none!important}
+  .strip .ph1{order:1}.strip .ph2{order:2}.strip .ph3{order:3}
+  .dots{display:flex;gap:6px;position:absolute;left:0;right:22px;bottom:12px;justify-content:center;pointer-events:none}
+  .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
+  .dots i.on{background:#fff}
+  .pend{flex-direction:column;align-items:flex-start;margin-top:56px}
+}
+</style>

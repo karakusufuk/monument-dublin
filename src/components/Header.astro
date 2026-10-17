@@ -1,0 +1,25 @@
+---
+import { PHONE, EMAIL } from '../config/site';
+const { home = false } = Astro.props as { home?: boolean };
+const path = Astro.url.pathname;
+const links = [['Properties', '/properties/'], ['Areas', '/areas/'], ['About', '/about/'], ['Contact', '/contact/']];
+const cur = (h: string) => (path.startsWith(h) ? 'page' : undefined);
+---
+<header class:list={['hdr', { glass: home }]} id="hdr" data-home={home ? '' : undefined}>
+  <a href="/" class="logo" aria-label="Monument, home"><span class="m">m</span><span class="rest" aria-hidden="true">onument</span></a>
+  <nav class="nav" aria-label="Main">
+    {links.map(([t, h]) => <a href={h} aria-current={cur(h)}>{t}</a>)}
+  </nav>
+  <div class="right">
+    <a href="/valuation/" class="btn cta" style="min-height:48px">Get an offer</a>
+    <button class="menu-btn" id="menu-open" aria-label="Menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i></button>
+  </div>
+</header>
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="top"><a href="/" class="logo">monument</a><button class="chip" id="menu-close">Close</button></div>
+  <nav class="links" aria-label="Mobile">
+    {links.map(([t, h]) => <a href={h}>{t}</a>)}
+  </nav>
+  <a href="/valuation/" class="btn btn-lg">Get an offer</a>
+  <div class="contact"><a href={`tel:${PHONE.replace(/\s/g, '')}`}>{PHONE}</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a></div>
+</div>

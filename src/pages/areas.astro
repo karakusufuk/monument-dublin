@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Banner from '../components/Banner.astro';
+import Img from '../components/Img.astro';
+import { areas, listingsIn, areaPriceRange, splitText, priceText } from '../lib/data';
+const pins = areas.map((a) => ({ slug: a.slug, center: a.center, radius: a.radius, name: a.name, homes: listingsIn(a.slug).map((l) => [l.lat, l.lng]) }));
+---
+<Base title="Our Dublin: six neighbourhoods — Monument" description="Six Dublin neighbourhoods, what each is like, what homes cost there and what Monument has in it now." ogPhoto="AREA-CLO.webp">
+  <Banner page="areas" eyebrow="Six neighbourhoods" title="Our Dublin." lead="We only work where we know the streets. Here is what each area is like, what homes cost there, and what we have in it now." photo={{ file: 'AREA-CLO.webp', alt: areas.find((a) => a.slug === 'clontarf')!.photoAlt }} />
+
+  <div class="wrap" style="margin-top:96px;margin-bottom:var(--section)">
+    {areas.map((a) => {
+      const ls = listingsIn(a.slug);
+      const [n, rest] = splitText(ls).split(' · ');
+      return (
+        <article id={a.slug} class="arow" data-reveal data-slug={a.slug}>
+          <div class="a-l">
+            <div class="a-h"><h2>{a.name}</h2><span class="meta" style="font-size:15px">{a.district}</span></div>
+            <p class="a-note">{a.note}</p>
+            <dl class="a-stats">
+              <div><dt class="eyebrow">Homes now</dt><dd class="num">{ls.length} · {rest}</dd></div>
+              <div><dt class="eyebrow">Price</dt><dd class="num">{areaPriceRange(a.slug)}</dd></div>
+            </dl>
+            <div class="a-cards">
+              {ls.map((l) => (
+                <a href={`/properties/${l.slug}/`}><Img file={l.photos[0].file} alt={l.photos[0].alt} sizes="(max-width: 768px) 45vw, 200px" widths={[320, 480, 800]} /><strong>{l.address}</strong></a>
+              ))}
+            </div>
+            <a class="btn btn-ghost" href={`/properties/?area=${a.slug}`}>See all homes in {a.name}</a>
+          </div>
+          <div class="a-m"><Img file={a.photo} alt={a.photoAlt} sizes="(max-width: 768px) 100vw, 380px" /></div>
+          <div class="a-r"><div class="map amap" data-slug={a.slug}></div></div>
+        </article>
+      );
+    })}
+  </div>
+  <script type="application/json" id="apins" set:html={JSON.stringify(pins)}></script>
+  <script>import '../scripts/areas';</script>
+</Base>
+
+<style is:global>
+.arow{display:grid;grid-template-columns:5fr 4fr 3fr;gap:32px;padding:48px 0;border-top:1px solid var(--ink);scroll-margin-top:90px}
+.a-h{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.a-h h2{font-size:clamp(40px,4vw,56px)}
+.a-note{margin-top:20px;max-width:460px}
+.a-stats{margin:28px 0 0;display:grid;gap:16px}
+.a-stats dd{margin:4px 0 0;font:600 17px/1.4 var(--font-body)}
+.a-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+.a-cards img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:12px}
+.a-cards strong{display:block;margin-top:8px;font:600 14px/1.3 var(--font-body)}
+.a-cards a:hover strong{text-decoration:underline;text-underline-offset:3px}
+.a-m img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px}
+.amap{width:100%;aspect-ratio:1;border-radius:20px}
+@media (max-width:1100px){.arow{grid-template-columns:1fr 1fr}.a-l{grid-column:1/-1}}
+@media (max-width:768px){
+  .arow{grid-template-columns:1fr;padding:40px 0;gap:28px;display:flex;flex-direction:column}
+  .a-l{display:contents}
+  .a-h{order:1}.a-note{order:2;margin-top:0}.a-m{order:3}.a-stats{order:4;margin:0}.a-cards{order:5;margin:0}.a-r{order:6}.a-l>.btn{order:7;align-self:flex-start}
+}
+</style>

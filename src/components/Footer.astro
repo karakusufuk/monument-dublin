@@ -1,0 +1,43 @@
+---
+import { PHONE, EMAIL, OFFICE, HOURS } from '../config/site';
+const { slim = false } = Astro.props as { slim?: boolean };
+---
+<footer class:list={['ftr', 'dark', { slim }]}>
+  <div class="wrap">
+    {!slim && (
+      <div class="grid">
+        <div>
+          <div class="flogo" aria-label="monument"><span>m</span>onument</div>
+          <p class="tagline">Independent estate agency. Six Dublin neighbourhoods, sales and lettings.</p>
+        </div>
+        <div>
+          <h2 class="eyebrow" style="font-family:var(--font-body)">Contact</h2>
+          <ul>
+            <li><a href={`tel:${PHONE.replace(/\s/g, '')}`}>{PHONE}</a></li>
+            <li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+            <li><address>{OFFICE}</address></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="eyebrow" style="font-family:var(--font-body)">Explore</h2>
+          <ul>
+            <li><a href="/properties/">Properties</a></li><li><a href="/areas/">Areas</a></li>
+            <li><a href="/about/">About</a></li><li><a href="/valuation/">Get an offer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="eyebrow" style="font-family:var(--font-body)">Hours</h2>
+          <ul>{HOURS.map((h) => <li><p>{h}</p></li>)}</ul>
+        </div>
+      </div>
+    )}
+    <div class="bottom">
+      <span>© 2026 Monument</span>
+      <ul>
+        <li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li>
+        <li><a href="#" aria-disabled="true">Instagram</a></li><li><a href="#" aria-disabled="true">LinkedIn</a></li>
+      </ul>
+      <span>Concept site · Design by Ufuk Karakuş</span>
+    </div>
+  </div>
+</footer>

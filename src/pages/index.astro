@@ -1,0 +1,224 @@
+---
+import Base from '../layouts/Base.astro';
+import Img from '../components/Img.astro';
+import { areas, listings, newest, areaBySlug, listingsIn, splitText, priceText, countText, numWord } from '../lib/data';
+import { SHOW_AREA_PRICE_RANGE } from '../config/site';
+import { areaPriceRange } from '../lib/data';
+
+const nAreas = areas.length;
+const showcase = newest.slice(0, 6);
+const search = {
+  areas: areas.map((a) => ({ slug: a.slug, name: a.name, district: a.district, n: listingsIn(a.slug).length })),
+  listings: listings.map((l) => ({ slug: l.slug, address: l.address, area: areaBySlug(l.area).name, areaSlug: l.area, type: l.type, kind: l.kind, price: priceText(l) })),
+};
+const band = {
+  areas: areas.map((a) => ({ slug: a.slug, name: a.name, district: a.district, center: a.center, radius: a.radius, text: splitText(listingsIn(a.slug)), n: listingsIn(a.slug).length })),
+  listings: listings.map((l) => ({ slug: l.slug, area: l.area, lat: l.lat, lng: l.lng })),
+};
+const first = areas[0];
+---
+<Base title="Monument — Independent estate agents in Dublin" description="Monument is an independent estate agency selling and letting homes in six Dublin neighbourhoods." home>
+  <section class="hero" id="hero">
+    <div class="stage" id="stage">
+      <Img file="HERO.webp" alt="A row of red-brick Georgian townhouses with painted doors on a quiet Dublin street" eager sizes="100vw" class="bg" />
+      <div class="scrim"></div>
+      <div class="layer l1" id="l1"><h1 class="t1">Find your place<br />in Dublin.</h1></div>
+      <div class="layer l2" id="l2">
+        <p class="t2" role="heading" aria-level="2">What are you looking for?</p>
+        <form class="sbar" id="sform" role="search" action="/properties/" autocomplete="off">
+          <label for="sq" class="sr-only">Search by area, street or type of home</label>
+          <input id="sq" class="sinput" type="text" name="q" placeholder="Search by area, street or type of home" role="combobox" aria-expanded="false" aria-controls="slist" aria-autocomplete="list" />
+          <button class="sgo" type="submit" aria-label="Search">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9.5" cy="9.5" r="6.5" /><path d="M14.5 14.5L19 19" /></svg>
+          </button>
+          <ul class="slist" id="slist" role="listbox" aria-label="Suggestions" hidden></ul>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section local" data-reveal>
+    <div class="local-grid">
+      <Img file="LOCAL.webp" alt="Three Georgian doorways in navy, raspberry and green with fanlights and granite steps" class="local-img" sizes="(max-width: 768px) 100vw, 560px" />
+      <div>
+        <p class="eyebrow">Monument · Dublin</p>
+        <h2 style="margin-top:20px">Local knowledge.<br />Exceptional homes.</h2>
+        <p class="lead" style="margin-top:28px;max-width:520px">Monument is an independent agency working in six Dublin neighbourhoods. We sell and let homes in the streets we walk every day, and we can tell you what living on each one is really like.</p>
+        <a href="/about/" class="btn btn-lg" style="margin-top:36px">About Monument</a>
+      </div>
+    </div>
+    <ul class="notes">
+      {areas.map((a) => (
+        <li data-reveal><a href={`/areas/#${a.slug}`}><strong>{a.name}</strong><span>{a.short}</span></a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="wrap section" id="props">
+    <div class="props-head" data-reveal>
+      <h2 style="font-size:clamp(40px,4.6vw,64px)">Our current properties</h2>
+      <p class="meta num" style="font-size:17px">{listings.length} homes · {nAreas} areas</p>
+    </div>
+    <div class="rows" id="rows">
+      {showcase.map((l) => {
+        const a = areaBySlug(l.area);
+        return (
+          <a class="row" href={`/properties/${l.slug}/`} data-lat={l.lat} data-lng={l.lng} data-reveal>
+            <div class="r-addr"><strong>{l.address}</strong><span class="sub-d">{a.name} · {l.district}</span><span class="sub-m num">{a.name} · {l.beds} bed · BER {l.ber}</span></div>
+            <div class="r-price num">{priceText(l)}</div>
+            <div class="r-st eyebrow">{l.status === 'sale' ? 'For sale' : 'To rent'}</div>
+            <div class="vis">
+              <div class="vph"><Img file={l.photos[0].file} alt={l.photos[0].alt} sizes="(max-width: 768px) 70vw, 420px" /></div>
+              <div class="slot"><span class="ph-pin" aria-hidden="true"></span></div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+    <div class="mini map" id="mini" hidden></div>
+    <a href="/properties/" class="btn btn-lg" style="margin-top:40px">View all properties</a>
+  </section>
+
+  <section class="band dark section" style="margin-top:var(--section)" aria-labelledby="band-h">
+    <div class="wrap band-grid">
+      <div>
+        <p class="eyebrow" id="band-h" style="color:var(--on-dark-3)">Areas</p>
+        <ul class="alist" id="alist">
+          {areas.map((a, i) => (
+            <li><a href={`/properties/?area=${a.slug}`} data-slug={a.slug} class:list={{ active: i === 0 }}><span class="an">{a.name}</span><span class:list={["ac","num",{one:listingsIn(a.slug).length===1}]}>{listingsIn(a.slug).length}</span></a></li>
+          ))}
+        </ul>
+        {SHOW_AREA_PRICE_RANGE && <p class="aprice num" id="aprice">{first.name}: {areaPriceRange(first.slug)}</p>}
+        <p class="ahint"><span class="hint-d">Hover an area to see where it is. Click to see its homes.</span><span class="hint-m">Tap an area to see it on the map. Tap again to see its homes.</span></p>
+      </div>
+      <div class="bmap-wrap">
+        <div class="map bmap" id="bmap"></div>
+        <div class="icard" id="icard" aria-live="polite">
+          <div><div class="in" id="icn">{first.name} · {first.district}</div><div class="is num" id="ics">{splitText(listingsIn(first.slug))}</div></div>
+          <a class="btn" id="icb" href={`/properties/?area=${first.slug}`} style="min-height:40px;padding:0 18px;font-size:14px">See homes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap val">
+    <h2 style="font-size:clamp(34px,3.6vw,48px)" data-reveal>Thinking of selling?<br /><span style="color:var(--text-3)">We'll value your home for free.</span></h2>
+    <a href="/valuation/" class="btn btn-lg">Get an offer</a>
+  </section>
+
+  <script type="application/json" id="search-data" set:html={JSON.stringify(search)}></script>
+  <script type="application/json" id="band-data" set:html={JSON.stringify(band)}></script>
+  <script>import '../scripts/home';</script>
+</Base>
+
+<style is:global>
+.hero{height:200vh;position:relative}
+.hero .stage{position:sticky;top:0;height:100vh;min-height:640px;overflow:hidden;color:#fff;--o:.38}
+.hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.hero .scrim{position:absolute;inset:0;background:rgba(14,14,14,var(--o))}
+.hero .layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;text-align:center}
+.hero .t1,.hero .t2{font-family:var(--font-display);font-weight:400;color:#fff;margin:0}
+.hero .t1{font-size:var(--fs-hero);line-height:1}
+.hero .t2{font-size:var(--fs-hero-2);line-height:1.05}
+.hero .l2{opacity:0;pointer-events:none}
+.hero .sbar{position:relative;margin-top:44px;width:100%;max-width:760px;height:72px;background:#fff;border-radius:999px;display:flex;align-items:center;padding:0 8px 0 32px;color:var(--ink);text-align:left}
+.hero .sinput{flex:1;height:100%;border:0;outline:0;background:transparent;font-size:18px;min-width:0}
+.hero .sbar:focus-within{outline:2px solid #fff;outline-offset:3px}
+.hero .sgo{width:56px;height:56px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.slist{position:absolute;top:calc(100% + 12px);left:0;right:0;background:#fff;border-radius:24px;padding:10px;text-align:left;z-index:5;max-height:420px;overflow:auto}
+.slist li{display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:52px;padding:8px 18px;border-radius:14px;cursor:pointer;color:var(--ink);font-size:16px}
+.slist li[aria-selected=true],.slist li:hover{background:var(--soft)}
+.slist .g{color:var(--text-3);margin-left:8px;font-size:14px}
+.slist .pr{color:var(--text-2);font-size:15px;white-space:nowrap}
+.slist[hidden]{display:none}
+
+.local-grid{display:grid;grid-template-columns:5fr 6fr;gap:80px;align-items:center}
+.local-img{width:100%;height:560px;object-fit:cover;border-radius:20px}
+.notes{margin-top:96px;display:grid;grid-template-columns:repeat(3,1fr);gap:0 48px;border-top:1px solid var(--ink)}
+.notes a{display:block;padding:22px 0;border-bottom:1px solid var(--line);height:100%}
+.notes strong{display:block;font:600 17px/1.4 var(--font-body)}
+.notes span{display:block;font-size:15px;color:var(--text-3);line-height:1.5;margin-top:2px}
+.notes a:hover strong{text-decoration:underline;text-underline-offset:4px}
+
+.props-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--ink)}
+.rows .row{display:grid;grid-template-columns:4fr 2fr 1.4fr 3fr;gap:24px;align-items:center;padding:20px 28px;border-bottom:1px solid var(--line);transition:background var(--t-fast),color var(--t-fast),border-radius var(--t-fast)}
+.row .r-addr strong{display:block;font:600 20px/1.3 var(--font-body)}
+.row .r-addr span{display:block;font-size:14px;color:var(--text-3);margin-top:2px;transition:color var(--t-fast)}
+.row .sub-m{display:none!important}
+.row .r-price{font:500 18px/1.3 var(--font-body)}
+.row .vis{display:grid;grid-template-columns:1fr 0fr;height:140px;transition:grid-template-columns var(--t-fast),gap var(--t-fast)}
+.row .vph{min-width:0;border-radius:14px;overflow:hidden;background:var(--placeholder)}
+.row .vph img{width:100%;height:100%;object-fit:cover}
+.row .slot{min-width:0;position:relative;overflow:hidden;border-radius:14px;background:var(--placeholder);opacity:0;transition:opacity var(--t-fast)}
+.ph-pin{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--pink);border:2px solid #fff}
+.mini{position:absolute;top:0;right:0;height:100%;border-radius:14px}
+.mini[hidden]{display:none}
+@media (hover:hover) and (pointer:fine){
+  .rows .row:hover,.rows .row:focus-visible{background:var(--ink);color:#fff;border-radius:20px;border-color:transparent;outline:none}
+  .rows .row:hover .r-addr span,.rows .row:focus-visible .r-addr span{color:var(--on-dark-2)}
+  .rows .row:hover .eyebrow,.rows .row:focus-visible .eyebrow{color:var(--on-dark-2)}
+  .rows .row:hover .vis,.rows .row:focus-visible .vis{grid-template-columns:1fr 1fr;gap:12px}
+  .rows .row:hover .slot,.rows .row:focus-visible .slot{opacity:1}
+}
+
+.band{background:var(--ink);color:#fff;padding:110px 0}
+.band-grid{display:grid;grid-template-columns:4fr 7fr;gap:72px;align-items:center}
+.alist{margin-top:20px}
+.alist a{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--dark-line);color:var(--on-dark-3);font:400 40px/1.15 var(--font-display);transition:color var(--t-fast)}
+.alist a .ac{font:400 14px/1 var(--font-body);color:var(--on-dark-3)}
+.alist a.active{color:#fff;border-bottom-color:#fff}
+.alist a.active .ac{color:#fff}
+.alist a.active .ac::after{content:' homes →'}
+.alist a.active .ac.one::after{content:' home →'}
+.aprice{margin-top:20px;font-size:15px;color:var(--on-dark-2)}
+.ahint{margin-top:24px;font-size:15px;color:var(--on-dark-2)}
+.hint-m{display:none}
+.bmap-wrap{position:relative}
+.bmap{height:520px;border-radius:22px}
+.icard{position:absolute;left:24px;bottom:24px;z-index:2;background:#fff;color:var(--ink);border-radius:16px;padding:14px 16px 14px 20px;display:flex;align-items:center;gap:20px}
+.icard .in{font:600 16px/1.3 var(--font-body)}
+.icard .is{font-size:14px;color:var(--text-3)}
+.val{padding-top:var(--section);padding-bottom:var(--section);display:flex;justify-content:space-between;align-items:center;gap:40px}
+
+@media (max-width:1100px){.local-grid{gap:48px}.notes{grid-template-columns:repeat(2,1fr)}.band-grid{gap:40px}}
+@media (max-width:768px){
+  .hero{height:160vh}
+  .hero .bg{object-position:62% 50%}
+  .hero .sbar{height:60px;padding-left:22px;margin-top:32px}
+  .hero .sgo{width:48px;height:48px}
+  .hero .sinput{font-size:16px}
+  .local-grid{grid-template-columns:1fr;gap:32px}
+  .local-img{height:340px}
+  .notes{grid-template-columns:1fr;margin-top:56px}
+  .props-head h2{font-size:36px!important}
+  .rows .row{grid-template-columns:1fr auto;grid-template-areas:"vis vis" "addr price";gap:14px 12px;padding:0 0 22px;border-bottom:0;align-items:start}
+  .row .vis{grid-area:vis;grid-template-columns:2fr 1fr;gap:8px;height:auto;aspect-ratio:4/3}
+  .row .slot{opacity:1}
+  .row .r-addr{grid-area:addr}.row .r-price{grid-area:price;font-weight:600}
+  .row .r-st{display:none}
+  .row .sub-d{display:none!important}.row .sub-m{display:block!important}
+  .row .vph,.row .slot{border-radius:14px}
+  .band{padding:72px 0}
+  .band-grid{grid-template-columns:1fr;gap:28px}
+  .alist{display:flex;gap:10px;overflow-x:auto;margin:16px -20px 0;padding:0 20px 4px;scrollbar-width:none}
+  .alist li{flex:none}
+  .alist a{font:500 15px/1 var(--font-body);min-height:44px;align-items:center;padding:0 20px;border:1px solid #3A3D42;border-radius:999px;color:#fff}
+  .alist a.active{background:#fff;color:var(--ink);border-color:#fff}
+  .alist a .ac,.alist a.active .ac::after{display:none}
+  .alist a.active .ac{display:none}
+  .bmap{height:auto;aspect-ratio:4/3;border-radius:18px}
+  .icard{left:12px;right:12px;bottom:12px;padding:12px 12px 12px 16px;justify-content:space-between;gap:12px}
+  .hint-d{display:none}.hint-m{display:inline}
+  .val{flex-direction:column;align-items:flex-start;gap:28px;padding-inline:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero{height:100vh}
+  .hero .stage{position:relative}
+  .hero .layer{position:static;display:flex;opacity:1!important;transform:none!important}
+  .hero .stage{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .hero .l2{opacity:1;pointer-events:auto}
+  .hero .t2{display:none}
+  .hero .sbar{margin-top:40px}
+  .hero .scrim{position:absolute}
+}
+</style>

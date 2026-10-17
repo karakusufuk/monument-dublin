@@ -1,0 +1,20 @@
+# SAPMALAR
+
+- **Harita zoom'u** · Areas bandı 14 yerine 13.6 (mobilde 13), Areas sayfası küçük haritalar 13.4. Zoom 14'te semt çemberi haritadan taşıyordu. `src/scripts/home.ts` (`bz`), `src/scripts/areas.ts`.
+- **MapLibre worker** · Vite paketlemesinde varsayılan worker yolu kırılıyor; `maplibre-gl-worker.mjs?worker&url` ile `setWorkerUrl` verildi. `src/scripts/map.ts`, `src/env-worker.d.ts`.
+- **Attribution** · Tüm haritalarda kompakt ve kapalı başlıyor (küçük kutularda yazı taşıyordu). Simgeye basınca açılıyor. `map.ts`.
+- **Görsel biçimi** · `<Picture>` yedek biçimi PNG yerine WebP (`fallbackFormat="webp"`), yoksa build ~3 MB'lık PNG üretiyordu. `components/Img.astro`.
+- **Hero + klavye** · Arama alanına klavyeyle odaklanılırsa sayfa durum 2'ye kaydırılıyor (düz scrollTo, kilit değil); yoksa görünmeyen alana odaklanılıyordu. `home.ts`.
+- **Gün chip'leri (viewing)** · Hiçbiri önceden seçili değil; gönderirken "Please choose a day." doğrulaması var ("biri seçilmeli" okuması).
+- **Fiyat paneli** · Min seçilince panel açık kalıyor, Max seçmek için; Esc/dışarı tıklama kapatıyor. `properties.ts`.
+- **Dropdown** · Gizli `<select>` kullanılmadı, durum JS'te tutuluyor (spec "olabilir" diyordu).
+- **Kat planı** · SVG viewBox 640 genişlikte; mobilde okunur kalsın diye en az 520px, yatay kaydırılabilir kutuda.
+- **Dekoratif foto alt'ı** · Properties satırlarında 02/03 `alt=""`; mobil şeritte de aynı kaldı.
+- **Mesajlar** · Doğrulama hata metinleri (Contact, Valuation, viewing) ve Eircode örneği belgede yoktu, yazdım.
+- **Alt metinler** · LOCAL için alt metin belgede yok; fotoğrafa bakarak yazdım. ABOUT-1/2 alt'ları `reference/About.dc.html`'den.
+- **Privacy** · Verilen metnin altına, harita karolarının OpenFreeMap'ten geldiğini söyleyen bir paragraf ekledim (dürüstlük; talimattaki metin korundu).
+- **Site adresi** · `astro.config.mjs` içinde `site: 'https://monument.example'` yer tutucu; canonical, og ve sitemap bunu kullanıyor. Yayında değiştirilmeli.
+- **Apple touch icon** · Kare, köşesiz siyah zemin (iOS kendisi yuvarlıyor); "m" sistem fontuyla çizildi, Hanken değil.
+- **astro check** · Çalışmıyor (Astro 7 + TypeScript 7 uyumsuz); tip kontrolü yerine build ve tarayıcı testi.
+- **Test araçları** · puppeteer-core ve lighthouse proje dışında (scratchpad) kuruldu; projeye paket eklenmedi.
+- **Sürümler** · Astro 7.4, maplibre-gl 6.14 (kurulum anında güncel).

@@ -1,0 +1,102 @@
+{
+  "_note": "Coordinates are approximate. Area outlines are drawn as soft circles from center + radius (label them 'approximate area' in alt text). POI walking minutes are computed in code: haversine distance x 1.35 / 80 m per minute, rounded up, minimum 1. Order of this list is the display order everywhere.",
+  "areas": [
+    {
+      "slug": "ranelagh", "name": "Ranelagh", "district": "Dublin 6", "center": [53.3242, -6.2540], "radius": 650,
+      "photo": "AREA-RAN.webp", "photoAlt": "Ranelagh main street with cafés and a green Luas tram",
+      "short": "A village main street, two Luas stops, ten minutes to town.",
+      "note": "A village main street with two Luas stops, Ranelagh and Beechwood. Red-brick terraces on quiet avenues, and the city centre ten minutes away by tram.",
+      "pois": [
+        { "cat": "transport", "name": "Beechwood Luas", "sub": "Green line", "lat": 53.3208, "lng": -6.2547 },
+        { "cat": "transport", "name": "Ranelagh Luas", "sub": "Green line", "lat": 53.3263, "lng": -6.2564 },
+        { "cat": "parks", "name": "Dartmouth Square", "sub": "Park", "lat": 53.3298, "lng": -6.2550 },
+        { "cat": "parks", "name": "Ranelagh Gardens Park", "sub": "Park", "lat": 53.3268, "lng": -6.2600 },
+        { "cat": "shops", "name": "Ranelagh village", "sub": "Shops and cafés", "lat": 53.3251, "lng": -6.2552 },
+        { "cat": "shops", "name": "Ranelagh Road", "sub": "Shops and cafés", "lat": 53.3275, "lng": -6.2563 },
+        { "cat": "schools", "name": "Sandford Park School", "sub": "Secondary", "lat": 53.3200, "lng": -6.2480 },
+        { "cat": "schools", "name": "Ranelagh Multi-Denominational School", "sub": "Primary", "lat": 53.3247, "lng": -6.2489 }
+      ]
+    },
+    {
+      "slug": "rathmines", "name": "Rathmines", "district": "Dublin 6", "center": [53.3220, -6.2655], "radius": 700,
+      "photo": "AREA-RAT.webp", "photoAlt": "Rathmines street of Victorian red-brick houses with the clock tower in the distance",
+      "short": "Just south of the canal. Tall Victorian houses and a busy morning high street.",
+      "note": "Just south of the Grand Canal. Tall Victorian houses with granite steps, a library, and a high street that is busy from early morning.",
+      "pois": [
+        { "cat": "transport", "name": "Charlemont Luas", "sub": "Green line", "lat": 53.3305, "lng": -6.2587 },
+        { "cat": "transport", "name": "Dublin Bus", "sub": "Rathmines Road", "lat": 53.3235, "lng": -6.2652 },
+        { "cat": "parks", "name": "Palmerston Park", "sub": "Park", "lat": 53.3165, "lng": -6.2651 },
+        { "cat": "parks", "name": "Grand Canal path", "sub": "Portobello", "lat": 53.3307, "lng": -6.2655 },
+        { "cat": "shops", "name": "Swan Centre", "sub": "Shops", "lat": 53.3225, "lng": -6.2652 },
+        { "cat": "shops", "name": "Rathmines Road", "sub": "Shops and cafés", "lat": 53.3250, "lng": -6.2648 },
+        { "cat": "schools", "name": "St Louis High School", "sub": "Secondary", "lat": 53.3195, "lng": -6.2640 },
+        { "cat": "schools", "name": "Kildare Place School", "sub": "Primary", "lat": 53.3175, "lng": -6.2665 }
+      ]
+    },
+    {
+      "slug": "ballsbridge", "name": "Ballsbridge", "district": "Dublin 4", "center": [53.3305, -6.2315], "radius": 650,
+      "photo": "AREA-BAL.webp", "photoAlt": "Herbert Park pond with mature trees and Edwardian houses behind",
+      "short": "Herbert Park, the RDS and the Lansdowne Road DART.",
+      "note": "Herbert Park, the RDS and the Aviva Stadium, with the DART at Lansdowne Road. Large Edwardian houses and newer apartments on leafy roads.",
+      "pois": [
+        { "cat": "transport", "name": "Lansdowne Road DART", "sub": "DART", "lat": 53.3346, "lng": -6.2297 },
+        { "cat": "transport", "name": "Dublin Bus", "sub": "Merrion Road", "lat": 53.3288, "lng": -6.2280 },
+        { "cat": "parks", "name": "Herbert Park", "sub": "Park", "lat": 53.3283, "lng": -6.2337 },
+        { "cat": "parks", "name": "River Dodder path", "sub": "Riverside walk", "lat": 53.3290, "lng": -6.2385 },
+        { "cat": "shops", "name": "Ballsbridge village", "sub": "Shops and cafés", "lat": 53.3305, "lng": -6.2310 },
+        { "cat": "shops", "name": "Donnybrook village", "sub": "Shops and cafés", "lat": 53.3220, "lng": -6.2370 },
+        { "cat": "schools", "name": "Marian College", "sub": "Secondary", "lat": 53.3330, "lng": -6.2335 },
+        { "cat": "schools", "name": "St Conleth's College", "sub": "Primary and secondary", "lat": 53.3320, "lng": -6.2410 }
+      ]
+    },
+    {
+      "slug": "clontarf", "name": "Clontarf", "district": "Dublin 3", "center": [53.3630, -6.2080], "radius": 900,
+      "photo": "AREA-CLO.webp", "photoAlt": "Clontarf promenade at low tide with the Poolbeg chimneys in the distance",
+      "short": "Miles of seafront path, Bull Island and St Anne's Park.",
+      "note": "Miles of seafront path along Dublin Bay, Bull Island and St Anne's Park. Victorian houses facing the sea and 1930s family homes behind them.",
+      "pois": [
+        { "cat": "transport", "name": "Clontarf Road DART", "sub": "DART", "lat": 53.3627, "lng": -6.2275 },
+        { "cat": "transport", "name": "Dublin Bus", "sub": "Clontarf Road", "lat": 53.3610, "lng": -6.2120 },
+        { "cat": "parks", "name": "Clontarf promenade", "sub": "Seafront", "lat": 53.3600, "lng": -6.2050 },
+        { "cat": "parks", "name": "St Anne's Park", "sub": "Park", "lat": 53.3700, "lng": -6.1870 },
+        { "cat": "shops", "name": "Vernon Avenue", "sub": "Shops and cafés", "lat": 53.3640, "lng": -6.2010 },
+        { "cat": "shops", "name": "Castle Avenue shops", "sub": "Shops", "lat": 53.3615, "lng": -6.2155 },
+        { "cat": "schools", "name": "Belgrove schools", "sub": "Primary", "lat": 53.3640, "lng": -6.2005 },
+        { "cat": "schools", "name": "Mount Temple Comprehensive", "sub": "Secondary", "lat": 53.3660, "lng": -6.2270 }
+      ]
+    },
+    {
+      "slug": "stoneybatter", "name": "Stoneybatter", "district": "Dublin 7", "center": [53.3515, -6.2860], "radius": 500,
+      "photo": "AREA-STO.webp", "photoAlt": "A street of red-brick artisan cottages with painted doors",
+      "short": "Artisan cottages, Manor Street cafés, a walk to Phoenix Park.",
+      "note": "Rows of red-brick artisan cottages, cafés on Manor Street and a short walk to Phoenix Park. The Luas Red line stops at Museum and Smithfield.",
+      "pois": [
+        { "cat": "transport", "name": "Museum Luas", "sub": "Red line", "lat": 53.3478, "lng": -6.2866 },
+        { "cat": "transport", "name": "Smithfield Luas", "sub": "Red line", "lat": 53.3471, "lng": -6.2785 },
+        { "cat": "parks", "name": "Phoenix Park", "sub": "North Circular Road gate", "lat": 53.3560, "lng": -6.2960 },
+        { "cat": "parks", "name": "Arbour Hill", "sub": "Garden", "lat": 53.3490, "lng": -6.2880 },
+        { "cat": "shops", "name": "Manor Street", "sub": "Shops and cafés", "lat": 53.3512, "lng": -6.2835 },
+        { "cat": "shops", "name": "Smithfield Square", "sub": "Cafés and cinema", "lat": 53.3485, "lng": -6.2785 },
+        { "cat": "schools", "name": "Stanhope Street School", "sub": "Primary and secondary", "lat": 53.3500, "lng": -6.2800 },
+        { "cat": "schools", "name": "TU Dublin Grangegorman", "sub": "University", "lat": 53.3555, "lng": -6.2780 }
+      ]
+    },
+    {
+      "slug": "grand-canal-dock", "name": "Grand Canal Dock", "district": "Dublin 2", "center": [53.3420, -6.2370], "radius": 450,
+      "photo": "AREA-GCD.webp", "photoAlt": "Grand Canal Dock basin with boats, warehouses and modern buildings",
+      "short": "Homes on the water, the theatre and the DART.",
+      "note": "Apartments on the water of the canal basin, the Bord Gáis Energy Theatre and the DART station. Most of the city's tech offices are a few minutes away.",
+      "pois": [
+        { "cat": "transport", "name": "Grand Canal Dock DART", "sub": "DART", "lat": 53.3397, "lng": -6.2376 },
+        { "cat": "transport", "name": "Dublin Bus", "sub": "Ringsend Road", "lat": 53.3390, "lng": -6.2350 },
+        { "cat": "parks", "name": "Grand Canal Square", "sub": "Square", "lat": 53.3422, "lng": -6.2385 },
+        { "cat": "parks", "name": "Ringsend Park", "sub": "Park", "lat": 53.3400, "lng": -6.2240 },
+        { "cat": "shops", "name": "Grand Canal Dock cafés", "sub": "Cafés", "lat": 53.3425, "lng": -6.2395 },
+        { "cat": "shops", "name": "Boland's Quay", "sub": "Shops", "lat": 53.3395, "lng": -6.2395 },
+        { "cat": "schools", "name": "Ringsend College", "sub": "Secondary", "lat": 53.3410, "lng": -6.2250 },
+        { "cat": "schools", "name": "St Patrick's NS, Ringsend", "sub": "Primary", "lat": 53.3417, "lng": -6.2275 }
+      ]
+    }
+  ],
+  "office": { "address": "14 Herbert Street, Dublin 2", "lat": 53.3349, "lng": -6.2470 }
+}

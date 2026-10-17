@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://monument.example/sitemap-index.xml

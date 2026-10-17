@@ -1,0 +1,27 @@
+---
+import { BANNER_STYLE } from '../config/site';
+import Img from './Img.astro';
+interface Props { page: 'properties' | 'areas' | 'contact'; eyebrow: string; title: string; lead?: string; photo?: { file: string; alt: string } }
+const { page, eyebrow, title, lead, photo } = Astro.props;
+const style = BANNER_STYLE[page];
+---
+{style === 'photo' && photo ? (
+  <section class="banner-photo" style="margin-top:100px">
+    <Img file={photo.file} alt={photo.alt} eager sizes="100vw" />
+    <div class="txt"><p class="eyebrow">{eyebrow}</p><h1 style="margin-top:16px">{title}</h1>{lead && <p class="lead" style="margin-top:20px">{lead}</p>}</div>
+  </section>
+) : page === 'areas' ? (
+  <section class="wrap banner ban-areas">
+    <div><p class="eyebrow">{eyebrow}</p><h1>{title}</h1></div>
+    {lead && <p class="lead">{lead}</p>}
+  </section>
+) : (
+  <section class="wrap banner">
+    <p class="eyebrow">{eyebrow}</p><h1>{title}</h1>{lead && <p class="lead">{lead}</p>}
+  </section>
+)}
+<style>
+  .ban-areas{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:end}
+  .ban-areas .eyebrow{margin-bottom:16px}.ban-areas .lead{margin:0 0 8px}
+  @media (max-width:768px){.ban-areas{grid-template-columns:1fr;gap:20px}}
+</style>

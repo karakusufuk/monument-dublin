@@ -1,0 +1,9 @@
+---
+import { Picture } from 'astro:assets';
+import { photo } from '../lib/photos';
+interface Props { file: string; alt: string; sizes?: string; eager?: boolean; class?: string; style?: string; widths?: number[] }
+const { file, alt, sizes = '(max-width: 768px) 100vw, 800px', eager = false, class: cls, style, widths = [480, 800, 1200, 1600] } = Astro.props;
+---
+<Picture src={photo(file)} alt={alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={widths} sizes={sizes}
+  loading={eager ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} fetchpriority={eager ? 'high' : undefined}
+  class={cls} style={style} />

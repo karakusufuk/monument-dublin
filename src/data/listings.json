@@ -1,0 +1,230 @@
+{
+  "_note": "Monument is a fictional agency. Streets are real, house numbers and all listing details are invented demo data. Prices are realistic estimates for Dublin in 2026. Photos live in src/assets/photos/ with these exact file names.",
+  "listings": [
+    {
+      "code": "RAN-1", "slug": "23-beechwood-avenue-upper", "address": "23 Beechwood Avenue Upper", "area": "ranelagh", "district": "Dublin 6",
+      "status": "sale", "type": "house", "kind": "Victorian terraced house", "price": 1195000,
+      "beds": 3, "baths": 2, "size": 128, "ber": "D1", "listed": "2026-10-14", "lat": 53.3205, "lng": -6.2510,
+      "photos": [
+        { "file": "RAN-1-01.webp", "alt": "Red-brick Victorian terrace with a red front door and bay window" },
+        { "file": "RAN-1-02.webp", "alt": "Front living room with a marble fireplace and bay window" },
+        { "file": "RAN-1-03.webp", "alt": "Kitchen extension opening onto a walled garden" }
+      ],
+      "description": [
+        "A red-brick Victorian terrace on a quiet, tree-lined avenue, three minutes from the Beechwood Luas stop. The front room keeps its marble fireplace, cornicing and bay window; the back of the house opens into a kitchen extension and a walled garden facing west.",
+        "Upstairs there are three bedrooms and a family bathroom, with a shower room on the return. The roof and windows were replaced in 2019; heating is gas."
+      ],
+      "features": ["West-facing walled garden", "Original marble fireplace", "Kitchen extension with roof light", "On-street permit parking", "New roof and windows (2019)", "Gas central heating"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Living room", "w": 4.6, "d": 3.9 }, { "name": "Dining", "w": 4.1, "d": 3.6 }, { "name": "Kitchen", "w": 5.2, "d": 3.8 } ] },
+        { "name": "First floor", "rooms": [ { "name": "Bedroom 1", "w": 4.6, "d": 3.7 }, { "name": "Bedroom 2", "w": 3.6, "d": 3.2 }, { "name": "Bedroom 3", "w": 2.8, "d": 2.6 }, { "name": "Bathroom", "w": 2.6, "d": 2.2 } ] }
+      ]
+    },
+    {
+      "code": "RAN-2", "slug": "6-chelmsford-lane", "address": "6 Chelmsford Lane", "area": "ranelagh", "district": "Dublin 6",
+      "status": "rent", "type": "house", "kind": "Mews house", "price": 3450,
+      "beds": 2, "baths": 2, "size": 92, "ber": "B3", "listed": "2026-10-09", "lat": 53.3262, "lng": -6.2523,
+      "photos": [
+        { "file": "RAN-2-01.webp", "alt": "Converted grey mews house with a glazed entrance on a cobbled lane" },
+        { "file": "RAN-2-02.webp", "alt": "Open-plan living and kitchen with exposed brick and a skylight" },
+        { "file": "RAN-2-03.webp", "alt": "Bedroom under a sloped ceiling with a roof window" }
+      ],
+      "description": [
+        "A converted mews on a cobbled lane behind Chelmsford Road, two minutes from Ranelagh village. The ground floor is one open room with a polished concrete floor, an exposed brick wall and a skylight over the dining table.",
+        "Two bedrooms upstairs, each with its own shower room. Available furnished from 1 November on a 12-month lease."
+      ],
+      "features": ["Furnished", "Two en-suite bedrooms", "Skylight over dining area", "Polished concrete floor", "Bike storage", "12-month lease"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Living / kitchen", "w": 7.2, "d": 4.8 }, { "name": "WC", "w": 1.4, "d": 1.2 } ] },
+        { "name": "First floor", "rooms": [ { "name": "Bedroom 1", "w": 3.9, "d": 3.4 }, { "name": "Bedroom 2", "w": 3.3, "d": 3.0 }, { "name": "Shower rooms", "w": 2.4, "d": 1.8 } ] }
+      ]
+    },
+    {
+      "code": "RAT-1", "slug": "41-grosvenor-road", "address": "41 Grosvenor Road", "area": "rathmines", "district": "Dublin 6",
+      "status": "sale", "type": "house", "kind": "Victorian house over garden level", "price": 1650000,
+      "beds": 4, "baths": 3, "size": 214, "ber": "E1", "listed": "2026-10-02", "lat": 53.3195, "lng": -6.2700,
+      "photos": [
+        { "file": "RAT-1-01.webp", "alt": "Victorian red-brick house with granite steps and a green front door" },
+        { "file": "RAT-1-02.webp", "alt": "Double reception room with two fireplaces and a piano" },
+        { "file": "RAT-1-03.webp", "alt": "Long rear garden with a lawn and a garden studio" }
+      ],
+      "description": [
+        "A Victorian house on three floors over a garden level, with granite steps up to the hall door. The double reception room keeps both marble fireplaces and its folding doors; the ceilings on the hall floor are 3.6 metres high.",
+        "The garden level has a family kitchen opening onto a 30-metre garden with an apple tree and a timber studio at the end. The house needs some updating, which is reflected in its energy rating."
+      ],
+      "features": ["30 m rear garden with studio", "Double reception room", "Two marble fireplaces", "3.6 m ceilings", "Garden-level kitchen", "Off-street parking for one car"],
+      "floors": [
+        { "name": "Garden level", "rooms": [ { "name": "Kitchen / dining", "w": 7.0, "d": 4.4 }, { "name": "Family room", "w": 4.4, "d": 4.0 }, { "name": "Utility", "w": 2.4, "d": 2.0 } ] },
+        { "name": "Hall floor", "rooms": [ { "name": "Front reception", "w": 5.0, "d": 4.4 }, { "name": "Rear reception", "w": 4.6, "d": 4.2 } ] },
+        { "name": "Upper floors", "rooms": [ { "name": "Bedroom 1", "w": 5.0, "d": 4.2 }, { "name": "Bedroom 2", "w": 4.6, "d": 3.8 }, { "name": "Bedroom 3", "w": 3.8, "d": 3.2 }, { "name": "Bedroom 4", "w": 3.2, "d": 2.8 } ] }
+      ]
+    },
+    {
+      "code": "RAT-2", "slug": "apt-4-88-rathmines-road-lower", "address": "Apt 4, 88 Rathmines Road Lower", "area": "rathmines", "district": "Dublin 6",
+      "status": "rent", "type": "apartment", "kind": "Apartment in a period building", "price": 2250,
+      "beds": 1, "baths": 1, "size": 48, "ber": "C2", "listed": "2026-10-11", "lat": 53.3270, "lng": -6.2650,
+      "photos": [
+        { "file": "RAT-2-01.webp", "alt": "Three-storey Victorian red-brick building with a shop at street level" },
+        { "file": "RAT-2-02.webp", "alt": "Living room with a tall sash window and a fireplace" },
+        { "file": "RAT-2-03.webp", "alt": "Galley kitchen with white tiles and a wooden worktop" }
+      ],
+      "description": [
+        "A one-bedroom apartment on the second floor of a Victorian building on Rathmines Road Lower, a short walk from the canal and the Charlemont Luas stop.",
+        "The living room has a tall sash window and the original fireplace; the galley kitchen looks over the rooftops. Unfurnished, available now."
+      ],
+      "features": ["Second floor", "Original fireplace", "Tall sash windows", "Unfurnished", "Available now", "Walk to the canal and Luas"],
+      "floors": [
+        { "name": "Apartment", "rooms": [ { "name": "Living room", "w": 4.4, "d": 3.8 }, { "name": "Kitchen", "w": 3.2, "d": 1.9 }, { "name": "Bedroom", "w": 3.6, "d": 3.2 }, { "name": "Bathroom", "w": 2.2, "d": 1.8 } ] }
+      ]
+    },
+    {
+      "code": "BAL-1", "slug": "9-herbert-park", "address": "9 Herbert Park", "area": "ballsbridge", "district": "Dublin 4",
+      "status": "sale", "type": "house", "kind": "Edwardian semi-detached house", "price": 2950000,
+      "beds": 5, "baths": 3, "size": 290, "ber": "C1", "listed": "2026-09-26", "lat": 53.3285, "lng": -6.2335,
+      "photos": [
+        { "file": "BAL-1-01.webp", "alt": "Edwardian red-brick semi-detached house with a gravel drive" },
+        { "file": "BAL-1-02.webp", "alt": "Drawing room with a bay window and a tiled Edwardian fireplace" },
+        { "file": "BAL-1-03.webp", "alt": "Kitchen and family room opening to a large garden" }
+      ],
+      "description": [
+        "An Edwardian semi-detached house facing Herbert Park, with a gravel drive for two cars. The drawing room has a two-storey bay window and its tiled fireplace; the herringbone oak floors run through the hall floor.",
+        "At the back, a kitchen and family room with steel-framed glazing opens to a stone terrace and a large garden. Five bedrooms over two floors."
+      ],
+      "features": ["Faces Herbert Park", "Drive for two cars", "Steel-framed garden glazing", "Herringbone oak floors", "Five bedrooms", "Walk to Lansdowne Road DART"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Drawing room", "w": 5.6, "d": 4.8 }, { "name": "Dining room", "w": 4.6, "d": 4.2 }, { "name": "Kitchen / family", "w": 8.2, "d": 5.0 }, { "name": "Study", "w": 3.4, "d": 3.0 } ] },
+        { "name": "First floor", "rooms": [ { "name": "Bedroom 1", "w": 5.2, "d": 4.4 }, { "name": "Bedroom 2", "w": 4.4, "d": 4.0 }, { "name": "Bedroom 3", "w": 4.0, "d": 3.4 }, { "name": "Bathroom", "w": 3.0, "d": 2.4 } ] },
+        { "name": "Second floor", "rooms": [ { "name": "Bedroom 4", "w": 4.2, "d": 3.6 }, { "name": "Bedroom 5", "w": 3.6, "d": 3.0 } ] }
+      ]
+    },
+    {
+      "code": "BAL-2", "slug": "apt-21-lansdowne-road", "address": "Apt 21, Lansdowne Road", "area": "ballsbridge", "district": "Dublin 4",
+      "status": "sale", "type": "apartment", "kind": "New apartment with balcony", "price": 795000,
+      "beds": 2, "baths": 2, "size": 86, "ber": "A2", "listed": "2026-10-06", "lat": 53.3340, "lng": -6.2290,
+      "photos": [
+        { "file": "BAL-2-01.webp", "alt": "Five-storey pale brick apartment building with recessed balconies" },
+        { "file": "BAL-2-02.webp", "alt": "Living area with floor-to-ceiling windows to a balcony" },
+        { "file": "BAL-2-03.webp", "alt": "Balcony with two chairs overlooking the trees of Ballsbridge" }
+      ],
+      "description": [
+        "A two-bedroom apartment on the fourth floor of a 2021 building on Lansdowne Road, four minutes from the DART. Floor-to-ceiling windows open onto a south-west balcony above the treetops.",
+        "Both bedrooms have their own bathroom. One parking space and a storage unit in the basement are included."
+      ],
+      "features": ["South-west balcony", "Fourth floor, lift", "Two bathrooms", "Basement parking space", "Storage unit", "A2 energy rating"],
+      "floors": [
+        { "name": "Apartment", "rooms": [ { "name": "Living / kitchen", "w": 7.4, "d": 4.6 }, { "name": "Bedroom 1", "w": 4.0, "d": 3.4 }, { "name": "Bedroom 2", "w": 3.4, "d": 3.0 }, { "name": "Balcony", "w": 4.0, "d": 1.8 } ] }
+      ]
+    },
+    {
+      "code": "CLO-1", "slug": "118-clontarf-road", "address": "118 Clontarf Road", "area": "clontarf", "district": "Dublin 3",
+      "status": "sale", "type": "house", "kind": "Victorian house facing the sea", "price": 1425000,
+      "beds": 4, "baths": 2, "size": 196, "ber": "D2", "listed": "2026-10-12", "lat": 53.3605, "lng": -6.2140,
+      "photos": [
+        { "file": "CLO-1-01.webp", "alt": "Off-white Victorian house on Clontarf Road facing Dublin Bay" },
+        { "file": "CLO-1-02.webp", "alt": "Living room with a bay window seat looking at the sea" },
+        { "file": "CLO-1-03.webp", "alt": "Bedroom with a sash window and a view of the bay" }
+      ],
+      "description": [
+        "A Victorian house across the road from the promenade, with Dublin Bay in the front windows. The living room has a bay window with a seat, and the main bedroom upstairs looks straight out to sea.",
+        "Four bedrooms, a kitchen and dining room to the rear and a south-facing back garden. The seafront path to Bull Island starts at the door."
+      ],
+      "features": ["Sea views from the front rooms", "Bay window seat", "South-facing rear garden", "Off-street parking", "Four bedrooms", "Five minutes to Clontarf Road DART"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Living room", "w": 5.2, "d": 4.4 }, { "name": "Dining room", "w": 4.0, "d": 3.8 }, { "name": "Kitchen", "w": 4.8, "d": 3.6 } ] },
+        { "name": "First floor", "rooms": [ { "name": "Bedroom 1", "w": 5.0, "d": 4.2 }, { "name": "Bedroom 2", "w": 4.0, "d": 3.6 }, { "name": "Bedroom 3", "w": 3.4, "d": 3.0 }, { "name": "Bedroom 4", "w": 3.0, "d": 2.6 } ] }
+      ]
+    },
+    {
+      "code": "CLO-2", "slug": "27-kincora-road", "address": "27 Kincora Road", "area": "clontarf", "district": "Dublin 3",
+      "status": "sale", "type": "house", "kind": "1930s semi-detached house", "price": 875000,
+      "beds": 3, "baths": 2, "size": 118, "ber": "C1", "listed": "2026-09-30", "lat": 53.3640, "lng": -6.2030,
+      "photos": [
+        { "file": "CLO-2-01.webp", "alt": "1930s pebble-dash semi-detached house with a curved bay window" },
+        { "file": "CLO-2-02.webp", "alt": "Bright living room with a curved bay window and a tiled fireplace" },
+        { "file": "CLO-2-03.webp", "alt": "Rear garden with a lawn, a shed and a patio table" }
+      ],
+      "description": [
+        "A 1930s semi-detached family house on Kincora Road, with a curved bay window and a front garden with a drive. The living room and dining room run front to back; the kitchen was renovated in 2022.",
+        "Three bedrooms upstairs and a garden of about 20 metres with a timber shed. Schools, the seafront and Vernon Avenue are all within walking distance."
+      ],
+      "features": ["Kitchen renovated 2022", "20 m rear garden", "Off-street parking", "Curved bay window", "Timber garden shed", "Walk to the seafront"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Living room", "w": 4.4, "d": 3.8 }, { "name": "Dining room", "w": 3.8, "d": 3.4 }, { "name": "Kitchen", "w": 4.2, "d": 3.0 } ] },
+        { "name": "First floor", "rooms": [ { "name": "Bedroom 1", "w": 4.2, "d": 3.6 }, { "name": "Bedroom 2", "w": 3.6, "d": 3.2 }, { "name": "Bedroom 3", "w": 2.6, "d": 2.4 }, { "name": "Bathroom", "w": 2.4, "d": 2.0 } ] }
+      ]
+    },
+    {
+      "code": "STO-1", "slug": "14-sitric-road", "address": "14 Sitric Road", "area": "stoneybatter", "district": "Dublin 7",
+      "status": "sale", "type": "house", "kind": "Artisan cottage", "price": 545000,
+      "beds": 2, "baths": 1, "size": 64, "ber": "E1", "listed": "2026-10-08", "lat": 53.3505, "lng": -6.2850,
+      "photos": [
+        { "file": "STO-1-01.webp", "alt": "Single-storey red-brick artisan cottage with a navy front door" },
+        { "file": "STO-1-02.webp", "alt": "Small living room with a cast-iron fireplace" },
+        { "file": "STO-1-03.webp", "alt": "Walled courtyard garden with brick paving and a bistro table" }
+      ],
+      "description": [
+        "A red-brick artisan cottage on one of Stoneybatter's quiet cottage streets, two minutes from Manor Street. The front room has a cast-iron fireplace; the kitchen at the back opens onto a small walled courtyard.",
+        "Two bedrooms and a bathroom. The cottage is in good order but would suit an energy upgrade, which grants may help with."
+      ],
+      "features": ["Walled courtyard garden", "Cast-iron fireplace", "Two bedrooms", "Two minutes to Manor Street", "Walk to Phoenix Park", "Luas Red line nearby"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Living room", "w": 3.8, "d": 3.4 }, { "name": "Kitchen", "w": 3.4, "d": 2.8 }, { "name": "Bedroom 1", "w": 3.4, "d": 3.0 }, { "name": "Bedroom 2", "w": 2.8, "d": 2.4 }, { "name": "Bathroom", "w": 2.2, "d": 1.8 } ] }
+      ]
+    },
+    {
+      "code": "STO-2", "slug": "52-oxmantown-road", "address": "52 Oxmantown Road", "area": "stoneybatter", "district": "Dublin 7",
+      "status": "sale", "type": "house", "kind": "Edwardian terraced house", "price": 745000,
+      "beds": 3, "baths": 2, "size": 102, "ber": "D1", "listed": "2026-10-15", "lat": 53.3540, "lng": -6.2905,
+      "photos": [
+        { "file": "STO-2-01.webp", "alt": "Edwardian red-brick terrace with a mustard-yellow front door" },
+        { "file": "STO-2-02.webp", "alt": "Living room knocked through to a dining room with a fireplace" },
+        { "file": "STO-2-03.webp", "alt": "Kitchen extension with a roof light and a narrow garden" }
+      ],
+      "description": [
+        "An Edwardian terrace on Oxmantown Road, five minutes from the North Circular Road gate of Phoenix Park. The living and dining rooms are knocked through, with a fireplace in the front room and glass doors to the garden at the back.",
+        "A small kitchen extension with a roof light, three bedrooms and a bathroom upstairs, and a shower room downstairs."
+      ],
+      "features": ["Five minutes to Phoenix Park", "Through living and dining room", "Kitchen extension with roof light", "Rear garden", "Two bathrooms", "Original fireplace"],
+      "floors": [
+        { "name": "Ground floor", "rooms": [ { "name": "Living / dining", "w": 7.6, "d": 3.6 }, { "name": "Kitchen", "w": 3.4, "d": 3.0 }, { "name": "Shower room", "w": 1.8, "d": 1.6 } ] },
+        { "name": "First floor", "rooms": [ { "name": "Bedroom 1", "w": 4.2, "d": 3.6 }, { "name": "Bedroom 2", "w": 3.4, "d": 3.0 }, { "name": "Bedroom 3", "w": 2.6, "d": 2.4 }, { "name": "Bathroom", "w": 2.4, "d": 2.0 } ] }
+      ]
+    },
+    {
+      "code": "GCD-1", "slug": "penthouse-hanover-quay", "address": "Penthouse, Hanover Quay", "area": "grand-canal-dock", "district": "Dublin 2",
+      "status": "sale", "type": "apartment", "kind": "Penthouse over the canal basin", "price": 1150000,
+      "beds": 3, "baths": 2, "size": 118, "ber": "A3", "listed": "2026-10-03", "lat": 53.3437, "lng": -6.2355,
+      "photos": [
+        { "file": "GCD-1-01.webp", "alt": "Modern apartment building on Hanover Quay seen across the water" },
+        { "file": "GCD-1-02.webp", "alt": "Penthouse living room with full-height glazing to a terrace" },
+        { "file": "GCD-1-03.webp", "alt": "Roof terrace with seating looking over the canal basin" }
+      ],
+      "description": [
+        "A top-floor penthouse on Hanover Quay with a 40 m² terrace over the Grand Canal Dock basin and the Bord Gáis Energy Theatre. The living space has full-height glazing on two sides and an exposed concrete ceiling.",
+        "Three bedrooms, two bathrooms and two parking spaces. The DART is four minutes away on foot."
+      ],
+      "features": ["40 m² roof terrace", "Water views on two sides", "Two parking spaces", "Concierge", "Three bedrooms", "Four minutes to the DART"],
+      "floors": [
+        { "name": "Apartment", "rooms": [ { "name": "Living / kitchen", "w": 9.0, "d": 5.2 }, { "name": "Bedroom 1", "w": 4.4, "d": 3.6 }, { "name": "Bedroom 2", "w": 3.6, "d": 3.2 }, { "name": "Bedroom 3", "w": 3.0, "d": 2.8 }, { "name": "Terrace", "w": 8.0, "d": 5.0 } ] }
+      ]
+    },
+    {
+      "code": "GCD-2", "slug": "apt-9-gallery-quay", "address": "Apt 9, Gallery Quay", "area": "grand-canal-dock", "district": "Dublin 2",
+      "status": "rent", "type": "apartment", "kind": "Canal-side apartment", "price": 3650,
+      "beds": 2, "baths": 2, "size": 79, "ber": "B1", "listed": "2026-10-13", "lat": 53.3418, "lng": -6.2365,
+      "photos": [
+        { "file": "GCD-2-01.webp", "alt": "Brick apartment building with balconies along the canal" },
+        { "file": "GCD-2-02.webp", "alt": "Living room with a glass door to a balcony over the water" },
+        { "file": "GCD-2-03.webp", "alt": "Bedroom with a window over the canal and a desk" }
+      ],
+      "description": [
+        "A two-bedroom apartment on the third floor of Gallery Quay, with a balcony over the canal. The living room and the main bedroom both face the water.",
+        "Furnished, with a desk in the second bedroom. Available from 15 November on a 12-month lease."
+      ],
+      "features": ["Balcony over the canal", "Furnished", "Two bathrooms", "Third floor, lift", "Available 15 November", "Two minutes to the DART"],
+      "floors": [
+        { "name": "Apartment", "rooms": [ { "name": "Living / kitchen", "w": 6.4, "d": 4.2 }, { "name": "Bedroom 1", "w": 3.8, "d": 3.2 }, { "name": "Bedroom 2", "w": 3.0, "d": 2.8 }, { "name": "Balcony", "w": 3.2, "d": 1.4 } ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "monument-site",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/hanken-grotesk": "^5.3.0",
+    "@fontsource/libre-caslon-display": "^5.3.0",
+    "astro": "^7.4.0",
+    "maplibre-gl": "^6.14.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2"
+  }
+}

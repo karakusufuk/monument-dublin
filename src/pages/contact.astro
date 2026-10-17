@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import { areas, office } from '../lib/data';
+import { PHONE, EMAIL, OFFICE, HOURS } from '../config/site';
+const tel = `tel:${PHONE.replace(/\s/g, '')}`;
+const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
+---
+<Base title="Contact Monument — talk to a Dublin estate agent" description="Buying, selling or renting in one of our six Dublin areas? Tell us a little and we'll call you back the same day.">
+  <div class="wrap ct">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h1 class="ct-h1">Let's talk.</h1>
+      <p class="lead" style="margin-top:28px;max-width:520px">Buying, selling or renting in one of our six areas? Tell us a little and we'll call you back the same day.</p>
+      <dl class="ct-info">
+        <div><dt>Phone</dt><dd><a href={tel}>{PHONE}</a></dd></div>
+        <div><dt>Email</dt><dd><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd></div>
+        <div><dt>Office</dt><dd>{OFFICE}</dd></div>
+        <div><dt>Hours</dt><dd>{HOURS.map((h) => <span>{h}</span>)}</dd></div>
+      </dl>
+      <div class="map ct-map" id="ctmap" data-lat={office.lat} data-lng={office.lng}></div>
+    </div>
+    <div class="ct-box">
+      <form id="cform" novalidate>
+        <div id="cin">
+          <div class="field"><span class="lbl" id="intl">I'm interested in</span>
+            <div class="days" role="radiogroup" aria-labelledby="intl" id="ints">
+              {interests.map((t, i) => <button type="button" class="chip" role="radio" aria-checked={i === 0 ? 'true' : 'false'} data-v={t}>{t}</button>)}
+            </div>
+            <p class="meta" id="selnote" style="font-size:14px;margin-top:10px" hidden>For a valuation, use our two-minute form <a href="/valuation/" class="link-u" style="color:var(--ink)">→</a></p>
+          </div>
+          <div class="two">
+            <div class="field"><label for="cn">Name</label><input id="cn" class="input" autocomplete="name" aria-describedby="e-cn" /><span class="err" id="e-cn" aria-live="polite"></span></div>
+            <div class="field"><label for="cp">Phone</label><input id="cp" class="input" type="tel" autocomplete="tel" aria-describedby="e-cp" /><span class="err" id="e-cp" aria-live="polite"></span></div>
+          </div>
+          <div class="field"><label for="ce">Email</label><input id="ce" class="input" type="email" autocomplete="email" aria-describedby="e-ce" /><span class="err" id="e-ce" aria-live="polite"></span></div>
+          <div class="field"><label for="ca">Area</label>
+            <select id="ca" class="input"><option>Any of the six</option>{areas.map((a) => <option>{a.name}</option>)}<option>Not sure yet</option></select></div>
+          <div class="field"><label for="cm">Message (optional)</label><textarea id="cm" class="input"></textarea></div>
+          <button type="submit" class="btn btn-lg">Send</button>
+          <p class="meta" style="font-size:13px;margin-top:16px">We only use your details to reply to you.</p>
+        </div>
+        <div id="cdone" hidden aria-live="polite">
+          <h2 id="cdone-h" style="font-size:40px;line-height:1.1"></h2>
+          <p id="cdone-t" style="margin-top:14px;color:var(--text-2)"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>import '../scripts/contact';</script>
+</Base>
+
+<style is:global>
+.ct{display:grid;grid-template-columns:5fr 6fr;gap:96px;padding-top:110px;padding-bottom:var(--section);align-items:start}
+.ct-h1{font-size:clamp(56px,7.8vw,112px);margin-top:16px}
+.ct-info{margin:44px 0 0;border-top:1px solid var(--ink)}
+.ct-info>div{display:grid;grid-template-columns:110px 1fr;padding:20px 0;border-bottom:1px solid var(--line);gap:16px}
+.ct-info dt{color:var(--text-3);font-size:15px}
+.ct-info dd{margin:0;font-weight:500}
+.ct-info dd span{display:block}
+.ct-info a:hover{text-decoration:underline}
+.ct-map{margin-top:40px;aspect-ratio:480/260;border-radius:20px}
+.ct-box{border:1px solid var(--line);border-radius:28px;padding:40px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:1100px){.ct{gap:56px}}
+@media (max-width:768px){
+  .ct{grid-template-columns:1fr;gap:48px;padding-top:96px}
+  .ct-box{padding:24px;border-radius:24px}
+  .two{grid-template-columns:1fr;gap:0}
+}
+</style>

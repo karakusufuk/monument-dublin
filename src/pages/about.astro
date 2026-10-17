@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Img from '../components/Img.astro';
+const line = 'Property is personal. Place is everything.';
+---
+<Base title="About Monument — an independent Dublin estate agency" description="Monument is an independent estate agency working in six Dublin neighbourhoods. Meet the way we work." ogPhoto="ABOUT-2.webp">
+  <section class="wrap banner">
+    <p class="eyebrow">About Monument</p>
+    <h1 class="ab-h1">Dublin is more than where we work.</h1>
+    <div style="margin-top:72px" data-reveal>
+      <Img file="ABOUT-2.webp" alt="A Georgian street corner in Dublin with a blue front door" eager sizes="(max-width: 1280px) 100vw, 1200px" class="ab-wide" />
+    </div>
+  </section>
+
+  <section class="wrap ab-two">
+    <div data-reveal><Img file="ABOUT-1.webp" alt="The Monument office: a table with a city map, house plans and keys by a sash window" sizes="(max-width: 768px) 100vw, 520px" class="ab-tall" /></div>
+    <div data-reveal>
+      <p class="eyebrow">How we work</p>
+      <h2 style="font-size:clamp(40px,4.2vw,60px);margin-top:20px">One agency.<br />Six neighbourhoods.</h2>
+      <p class="lead" style="margin-top:28px;max-width:560px">We chose to work in six parts of Dublin and nowhere else. It means we know which side of a street gets the evening sun, which schools have waiting lists and how long the walk to the Luas really takes.</p>
+      <p class="lead" style="margin-top:20px;max-width:560px">When you sell with us, the person who values your home is the one who shows it. When you buy, we tell you what we would want to know ourselves.</p>
+    </div>
+  </section>
+
+  <section class="mq" aria-label={line}>
+    <p class="sr-only mq-sr">{line}</p>
+    <div class="mq-static">{line}</div>
+    <div class="mq-track" aria-hidden="true">
+      {[0, 1].map(() => <div class="mq-grp"><span>{line}</span><span>{line}</span></div>)}
+    </div>
+  </section>
+
+  <section class="wrap ab-team">
+    <div data-reveal>
+      <p class="eyebrow">The team</p>
+      <h2 style="font-size:var(--fs-h2);margin-top:20px">Small team.<br />Local by choice.</h2>
+      <p class="lead" style="margin-top:28px;max-width:560px">Most of us live in the areas we sell in. Call the office and you will speak to someone who has been inside the house.</p>
+    </div>
+    <div class="ab-cta" data-reveal>
+      <a href="/contact/" class="btn btn-lg">Start a conversation</a>
+      <a href="/valuation/" class="link-u" style="font-weight:500">Or get a free valuation</a>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+.ab-h1{font-size:clamp(52px,7.8vw,112px);max-width:1100px;margin-top:16px}
+.ab-wide{width:100%;aspect-ratio:21/9;object-fit:cover;object-position:50% 55%;border-radius:24px}
+.ab-two{display:grid;grid-template-columns:5fr 6fr;gap:96px;align-items:center;padding-block:var(--section)}
+.ab-tall{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px}
+.mq{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:44px 0;overflow:hidden}
+.mq-track{display:flex;width:max-content;animation:mq 60s linear infinite}
+.mq-track:hover{animation-play-state:paused}
+.mq-grp{display:flex;flex:none}
+.mq-grp span{font:400 120px/1.15 var(--font-display);white-space:nowrap;margin-right:96px}
+.mq-static{display:none}
+@keyframes mq{to{transform:translateX(-50%)}}
+.ab-team{padding-block:var(--section);display:grid;grid-template-columns:6fr 5fr;gap:48px;align-items:end}
+.ab-cta{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+@media (max-width:1100px){.ab-two{gap:56px}}
+@media (max-width:768px){
+  .ab-wide{aspect-ratio:4/3}
+  .ab-two{grid-template-columns:1fr;gap:40px}
+  .mq-grp span{font-size:64px}
+  .mq{padding:28px 0}
+  .ab-team{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .mq-track{display:none}
+  .mq-sr{display:none}
+  .mq-static{display:block;text-align:center;font:400 clamp(40px,6vw,72px)/1.1 var(--font-display);padding:0 40px}
+}
+</style>

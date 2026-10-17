@@ -1,0 +1,254 @@
+---
+import Base from '../../layouts/Base.astro';
+import Img from '../../components/Img.astro';
+import Ber from '../../components/Ber.astro';
+import { listings, areaBySlug, priceText, similar, walkMin } from '../../lib/data';
+import { PHONE } from '../../config/site';
+
+export function getStaticPaths() {
+  return listings.map((l) => ({ params: { slug: l.slug }, props: { l } }));
+}
+const { l } = Astro.props;
+const a = areaBySlug(l.area);
+const tag = l.status === 'sale' ? 'For sale' : 'To rent';
+const sim = similar(l);
+const tel = `tel:${PHONE.replace(/\s/g, '')}`;
+
+// floor plan layout (metres → svg units)
+const W = 640, PAD = 20, S = 40;
+const plans = l.floors.map((f) => {
+  let x = PAD, y = PAD, rowH = 0;
+  const rooms = f.rooms.map((r) => {
+    const w = r.w * S, h = r.d * S;
+    if (x + w > W - PAD + 0.5 && x > PAD) { x = PAD; y += rowH; rowH = 0; }
+    const out = { ...r, x, y, w, h, mw: r.w, md: r.d };
+    x += w; rowH = Math.max(rowH, h);
+    return out;
+  });
+  return { name: f.name, rooms, h: y + rowH + PAD };
+});
+
+const cats: [string, string][] = [['transport', 'Transport'], ['parks', 'Parks'], ['shops', 'Shops & cafés'], ['schools', 'Schools']];
+const pois = a.pois.map((p) => ({ ...p, min: walkMin([l.lat, l.lng], [p.lat, p.lng]) })).sort((x, y) => x.min - y.min);
+const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i) => ({ i, cat: p.cat, lat: p.lat, lng: p.lng })) };
+---
+<Base title={`${l.address}, ${a.name} — Monument`} description={`${l.kind} for ${l.status === 'sale' ? 'sale' : 'rent'} in ${a.name}, ${l.district}. ${l.beds} bed, ${l.baths} bath, ${l.size} m², BER ${l.ber}. ${priceText(l)}.`} ogPhoto={l.photos[0].file}>
+  <div class="wrap" style="padding-top:112px">
+    <nav class="crumbs meta" aria-label="Breadcrumb">
+      <a href="/properties/">Properties</a> / <a href={`/areas/#${a.slug}`}>{a.name}</a> / <span aria-current="page">{l.address}</span>
+    </nav>
+
+    <div class="lhead">
+      <div>
+        <p class="eyebrow">{tag} · {l.kind}</p>
+        <h1 class="lh1">{l.address}</h1>
+        <p style="font-size:18px;margin-top:12px;color:var(--text-2)">{a.name}, {l.district}</p>
+      </div>
+      <button type="button" class="chip" id="share">Share</button>
+    </div>
+
+    <dl class="strip5">
+      <div class="pr"><dt class="eyebrow">Price</dt><dd class="num">{priceText(l)}</dd></div>
+      <div><dt class="eyebrow">Bedrooms</dt><dd class="num">{l.beds}</dd></div>
+      <div><dt class="eyebrow">Bathrooms</dt><dd class="num">{l.baths}</dd></div>
+      <div><dt class="eyebrow">Floor area</dt><dd class="num">{l.size} m²</dd></div>
+      <div><dt class="eyebrow">BER</dt><dd><Ber ber={l.ber} label={false} /></dd></div>
+    </dl>
+
+    <div class="lgrid">
+      <div class="lg-gal">
+        <div class="gal" id="gal" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Photos of the home">
+          <div class="gal-main">
+            {l.photos.map((p, i) => <Img file={p.file} alt={p.alt} eager={i === 0} class:list={['gimg', { on: i === 0 }]} sizes="(max-width: 1100px) 100vw, 780px" />)}
+            <span class="gcount num" id="gcount" aria-live="polite">1 / {l.photos.length}</span>
+            <div class="gnav">
+              <button type="button" id="gprev" aria-label="Previous photo"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 3L5 9l6 6" /></svg></button>
+              <button type="button" id="gnext" aria-label="Next photo"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3l6 6-6 6" /></svg></button>
+            </div>
+          </div>
+          <div class="thumbs">
+            {l.photos.map((p, i) => (
+              <button type="button" class:list={['th', { on: i === 0 }]} data-i={i} aria-label={`Show photo ${i + 1}`}><Img file={p.file} alt="" sizes="200px" widths={[240, 480]} /></button>
+            ))}
+            <a href="#plan" class="th plan-th">Floor plan</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="lg-side" id="book">
+        <form class="book" id="bform" novalidate>
+          <div id="bform-in">
+            <h2 class="bt">Book a viewing</h2>
+            <p class="meta" style="font-size:15px;margin-top:6px">Choose a day. We'll confirm a time by phone.</p>
+            <div class="field" style="margin-top:22px"><span class="lbl" id="daylbl">Day</span>
+              <div class="days" id="days" role="radiogroup" aria-labelledby="daylbl" aria-describedby="e-day"></div>
+              <span class="err" id="e-day" aria-live="polite"></span></div>
+            <div class="field"><label for="tod">Time of day</label>
+              <select id="tod" class="input"><option>Morning</option><option selected>Afternoon</option><option>Evening</option></select></div>
+            <div class="field"><label for="bn">Name</label><input id="bn" class="input" autocomplete="name" aria-describedby="e-name" /><span class="err" id="e-name" aria-live="polite"></span></div>
+            <div class="field"><label for="bp">Phone</label><input id="bp" class="input" type="tel" autocomplete="tel" aria-describedby="e-phone" /><span class="err" id="e-phone" aria-live="polite"></span></div>
+            <div class="field"><label for="be">Email</label><input id="be" class="input" type="email" autocomplete="email" aria-describedby="e-email" /><span class="err" id="e-email" aria-live="polite"></span></div>
+            <button type="submit" class="btn btn-block">Request viewing</button>
+          </div>
+          <div id="bdone" hidden>
+            <h2 class="bt">Request sent.</h2>
+            <p id="bdone-t" style="font-size:15px;margin-top:10px;color:var(--text-2)"></p>
+            <a href="/properties/" class="btn btn-ghost" style="margin-top:22px">Back to properties</a>
+          </div>
+          <p class="orcall meta">Or call <a href={tel} class="link-u" style="color:var(--ink)">{PHONE}</a></p>
+        </form>
+      </aside>
+
+      <div class="lg-rest">
+        <section>
+          <h3 data-reveal>About this home</h3>
+          <div style="margin-top:24px;max-width:640px;display:grid;gap:18px">
+            {l.description.map((p) => <p style="color:#2A2D31">{p}</p>)}
+          </div>
+          <ul class="feat">{l.features.map((f) => <li>{f}</li>)}</ul>
+        </section>
+
+        <section id="plan" style="margin-top:72px">
+          <div class="sec-h"><h3>Floor plan</h3>
+            <div class="tabs" role="tablist" aria-label="Floors">
+              {plans.map((p, i) => <button type="button" class="chip" role="tab" id={`tab${i}`} aria-controls={`pl${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-i={i}>{p.name}</button>)}
+            </div>
+          </div>
+          <div class="planbox">
+            {plans.map((p, i) => (
+              <div role="tabpanel" id={`pl${i}`} aria-labelledby={`tab${i}`} hidden={i !== 0} class="planscroll">
+                <svg viewBox={`0 0 ${W} ${p.h}`} role="img" aria-label={`${p.name} plan: ${p.rooms.map((r) => r.name).join(', ')}`} style="display:block;width:100%;min-width:520px">
+                  {p.rooms.map((r) => (
+                    <g>
+                      <rect x={r.x} y={r.y} width={r.w} height={r.h} fill="#fff" stroke="#0E0E0E" stroke-width="3" />
+                      <text x={r.x + r.w / 2} y={r.y + r.h / 2 - 4} text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-weight="600" font-size="15" fill="#0E0E0E">{r.name}</text>
+                      <text x={r.x + r.w / 2} y={r.y + r.h / 2 + 16} text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-size="13" fill="#5E6166">{r.mw.toFixed(1)} × {r.md.toFixed(1)} m</text>
+                    </g>
+                  ))}
+                </svg>
+              </div>
+            ))}
+          </div>
+          <p class="meta" style="font-size:13px;margin-top:12px">Not to scale. For illustration.</p>
+        </section>
+
+        <section style="margin-top:72px">
+          <div class="sec-h"><h3>Location</h3>
+            <div class="tabs" id="cats" role="group" aria-label="Nearby places">
+              {cats.map(([k, t], i) => <button type="button" class="chip" data-cat={k} aria-pressed={i === 0 ? 'true' : 'false'}>{t}</button>)}
+            </div>
+          </div>
+          <div class="locgrid">
+            <div class="map locmap" id="locmap"></div>
+            <div>
+              <ul class="poil" id="poil">
+                {pois.map((p, i) => (
+                  <li data-i={i} data-cat={p.cat} tabindex="0" hidden={p.cat !== 'transport'}>
+                    <div><strong>{p.name}</strong><span>{p.sub}</span></div><span class="num wm">{p.min} min walk</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="meta" style="font-size:13px;margin-top:12px">Walking times are approximate.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section class="sim">
+      <div class="sec-h" data-reveal><h3>Similar homes</h3><a href="/properties/" class="link-u">All properties →</a></div>
+      <div class="simgrid">
+        {sim.map((s) => (
+          <a href={`/properties/${s.slug}/`} class="simcard" data-reveal>
+            <Img file={s.photos[0].file} alt={s.photos[0].alt} sizes="(max-width: 768px) 100vw, 400px" />
+            <strong>{s.address}</strong>
+            <span class="num">{areaBySlug(s.area).name} · {s.beds} bed · {priceText(s)}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <div class="mbar">
+    <a href={tel} class="btn btn-ghost">Call</a>
+    <a href="#book" class="btn" id="mbook">Book a viewing</a>
+  </div>
+  <script type="application/json" id="ldata" set:html={JSON.stringify(data)}></script>
+  <script>import '../../scripts/listing';</script>
+</Base>
+
+<style is:global>
+.crumbs{padding:8px 0 28px}
+.crumbs a:hover{text-decoration:underline}
+.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+.lh1{font-size:clamp(44px,5.3vw,76px);line-height:1;margin-top:16px}
+.strip5{margin:40px 0 0;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.strip5>div{padding:22px 0}
+.strip5 dt{margin-bottom:8px}
+.strip5 dd{margin:0;font:600 26px/1.2 var(--font-body)}
+.lgrid{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:0 56px;margin-top:48px;align-items:start}
+.lg-gal{grid-column:1;grid-row:1}
+.lg-side{grid-column:2;grid-row:1/span 2;position:sticky;top:104px}
+.lg-rest{grid-column:1;grid-row:2;margin-top:72px}
+.gal:focus-visible{outline-offset:6px;border-radius:20px}
+.gal-main{position:relative;aspect-ratio:3/2;border-radius:20px;overflow:hidden;background:var(--placeholder)}
+.gimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 200ms}
+.gimg.on{opacity:1}
+.gcount{position:absolute;left:16px;bottom:16px;background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font:600 14px/1 var(--font-body)}
+.gnav{position:absolute;right:16px;bottom:16px;display:flex;gap:8px}
+.gnav button{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.th{aspect-ratio:3/2;border-radius:12px;overflow:hidden;position:relative;background:var(--placeholder);display:block}
+.th img{width:100%;height:100%;object-fit:cover}
+.th.on{outline:2px solid var(--ink);outline-offset:2px}
+.plan-th{display:flex;align-items:center;justify-content:center;font:600 14px/1 var(--font-body);background:var(--soft);border:1px solid var(--line)}
+.feat{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:0 40px;max-width:760px}
+.feat li{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.planbox{margin-top:24px;border:1px solid var(--line);border-radius:20px;background:#fff;padding:12px;overflow:hidden}
+.planscroll{overflow-x:auto}
+.planscroll[hidden]{display:none}
+.locgrid{display:grid;grid-template-columns:7fr 5fr;gap:32px;margin-top:24px}
+.locmap{height:420px;border-radius:20px}
+.poil{border-top:1px solid var(--ink)}
+.poil li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 12px;border-bottom:1px solid var(--line)}
+.poil li[hidden]{display:none}
+.poil li:hover,.poil li:focus-visible{background:var(--soft)}
+.poil strong{display:block;font-weight:600;font-size:16px}
+.poil span{font-size:14px;color:var(--text-3)}
+.poil .wm{white-space:nowrap;color:var(--text-2)}
+.book{border:1px solid var(--line);border-radius:24px;padding:28px;background:#fff}
+.bt{font:400 32px/1.1 var(--font-display)}
+.days{display:flex;flex-wrap:wrap;gap:8px}
+.days .chip[aria-checked=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.orcall{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:14px}
+.sim{margin-top:110px;margin-bottom:var(--section)}
+.simgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:32px}
+.simcard img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:16px}
+.simcard strong{display:block;margin-top:14px;font:600 18px/1.3 var(--font-body)}
+.simcard span{font-size:15px;color:var(--text-3)}
+.simcard:hover strong{text-decoration:underline;text-underline-offset:4px}
+.mbar{display:none}
+@media (max-width:1100px){
+  .lgrid{grid-template-columns:1fr;gap:0}
+  .lg-gal,.lg-side,.lg-rest{grid-column:1;grid-row:auto}
+  .lg-side{position:static;margin-top:40px}
+  .lg-rest{margin-top:56px}
+}
+@media (max-width:768px){
+  .lh1{font-size:44px}
+  .lhead{flex-direction:column}
+  .strip5{grid-template-columns:1fr 1fr}
+  .strip5 .pr{grid-column:1/-1}
+  .strip5>div{padding:16px 0}
+  .feat{grid-template-columns:1fr}
+  .locgrid{grid-template-columns:1fr}
+  .locmap{height:320px}
+  .simgrid{grid-template-columns:1fr;gap:28px}
+  .sim{margin-top:72px}
+  .book{padding:22px}
+  .mbar{display:grid;grid-template-columns:1fr 2fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 16px}
+  .ftr{padding-bottom:76px}
+}
+</style>

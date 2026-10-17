@@ -1,0 +1,54 @@
+/* Monument — design tokens. Use these variables everywhere; do not add new colours or fonts. */
+:root {
+  /* colour */
+  --bg: #FFFFFF;          /* page ground, cool clean white (no cream) */
+  --ink: #0E0E0E;         /* headings, body, buttons, footer, dark bands */
+  --text-2: #3B3E43;      /* lead paragraphs */
+  --text-3: #5E6166;      /* meta, eyebrows, captions (6:1 on white) */
+  --line: #E4E5E7;        /* 1px dividers, header border when opaque */
+  --line-strong: #D9DBDE; /* input and chip borders */
+  --soft: #F3F4F5;        /* Properties row hover, selected suggestion */
+  --placeholder: #E9EBED; /* map land, image loading */
+  --water: #D5DEE6;
+  --pink: #C9146C;        /* ONLY: map pins, area outline, selected area/filter accent, the "m" of the logo */
+  --pink-fill: rgba(201, 20, 108, .10);
+  --on-dark: #FFFFFF;
+  --on-dark-2: #B5B8BD;   /* footer secondary text */
+  --on-dark-3: #7E8288;   /* footer legal row, inactive area names */
+  --dark-line: #2A2C30;
+
+  /* BER label colours (SEAI scale) */
+  --ber-a: #009A44; --ber-b: #52B847; --ber-c: #C1D82F; --ber-d: #FFE600;
+  --ber-e: #F7B32B; --ber-f: #EF7D22; --ber-g: #E52521;
+
+  /* type */
+  --font-display: 'Libre Caslon Display', Georgia, serif;  /* weight 400 only */
+  --font-body: 'Hanken Grotesk', system-ui, sans-serif;    /* 400 500 600 700 */
+  --num: tabular-nums lining-nums;                         /* font-variant-numeric for prices, m², counts */
+
+  --fs-hero: clamp(56px, 8vw, 116px);   /* line-height 1 */
+  --fs-hero-2: clamp(44px, 6.6vw, 96px);
+  --fs-h1: clamp(52px, 6.7vw, 96px);    /* subpage h1, line-height 1 */
+  --fs-h2: clamp(40px, 5vw, 72px);      /* line-height 1.02 */
+  --fs-h3: clamp(30px, 2.8vw, 40px);    /* line-height 1.1 */
+  --fs-lead: 19px;                      /* line-height 1.55, mobile 17px */
+  --fs-body: 17px;                      /* line-height 1.65 */
+  --fs-small: 15px;
+  --fs-meta: 14px;
+  --fs-eyebrow: 12px;                   /* 600, uppercase, letter-spacing .14em */
+
+  /* layout */
+  --max: 1280px;          /* content max width, padding-inline 40px (20px under 768) */
+  --header-max: 1180px;
+  --section: 140px;       /* vertical rhythm between sections (mobile 72px) */
+  --radius-img: 20px;     /* big images; thumbnails 14px; small thumbs 12px */
+  --radius-card: 24px;
+  --pill: 999px;          /* every button, chip, input that is a pill */
+  --field-radius: 14px;   /* text inputs and selects inside forms */
+
+  /* motion */
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --t-fast: 200ms;
+  --t-base: 300ms;
+  --t-reveal: 500ms;
+}

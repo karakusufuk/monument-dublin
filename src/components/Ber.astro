@@ -1,0 +1,5 @@
+---
+import { berColor, berDark } from '../lib/data';
+const { ber, label = true } = Astro.props as { ber: string; label?: boolean };
+---
+<span class="ber"><span class:list={['ber-tag', { w: berDark(ber) }]} style={`background:${berColor(ber)}`}>{ber[0]}</span>{label && <small class="num">BER {ber}</small>}</span>
