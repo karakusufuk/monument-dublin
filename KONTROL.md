@@ -19,7 +19,7 @@ Test: Chrome (headless, puppeteer-core) ile `astro preview` üzerinde, 1440×900
 ## Arama
 ✓ "ranel" → semt satırı + 2 ilan; "Cottage" → tür/kind eşleşmesi; "clóntarf" aksan duyarsız (3 sonuç).
 ✓ Ok tuşları, Esc kapatıyor, serbest metin + Enter → `/properties/?q=…`.
-✗ Fareyle öneri tıklama (mousedown) elle denenmedi, kod yolu klavyeyle aynı.
+✓ Öneriye fareyle tıklama (mousedown): "rathm" → Rathmines önerisi → `/properties/?area=rathmines`.
 
 ## Ana sayfa vitrin ve Areas bandı
 ✓ Satır hover: koyu zemin, görsel ikiye bölünüyor, mini harita beliriyor. Tek MapLibre örneği (4. satıra geçince `maps=1`).
@@ -33,15 +33,17 @@ Test: Chrome (headless, puppeteer-core) ile `astro preview` üzerinde, 1440×900
 ✓ Boş sonuç bloğu; klavyeyle dropdown (ok + Enter).
 ✓ Hover yığını: zemin `--soft`, 01 `scale(.9)`, 02/03 döndürülmüş ve görünür.
 ✓ Mobil: "Filters · n" paneli açılıyor ("Show 9 homes"), foto şeridi scroll-snap, sağda 22px ipucu.
-✗ Mobilde paneldeki dropdown'ların dokunmatikle kullanımı denenmedi.
+✓ Mobilde Filters paneli: Area dropdown'ı açılıyor, Rathmines seçilince URL `?area=rathmines`, düğme "Show 1 home".
+✓ Mobil menü (375px): tam ekran, Properties/Areas/About/Contact + telefon ve e-posta.
+✓ 375px'te 8 sayfanın hiçbirinde yatay taşma yok (ölçüm: scrollWidth 371).
 
 ## İlan sayfası
 ✓ Galeri: ← → , küçük resim, sayaç.
-✗ Dokunmatik kaydırma (swipe) test edilmedi (kod touchstart/touchend).
+✓ Dokunmatik kaydırma (TouchEvent ile): sola 1→2, sağa 2→1; dikey ve 40px altı hareket slayt değiştirmiyor.
 ✓ Kat planı sekmeleri, oda ölçüleri doğru ("4.6 × 3.9 m").
 ✓ Konum: kategori değişince pinler ve liste değişiyor; liste hover → pin 16px (`big`) ve fitBounds.
 ✓ Viewing formu: boş gönderimde 3 hata + `aria-invalid`; geçerli gönderimde "Request sent." ve "We'll call Aoife to confirm a time on Mon 19." (pazar atlanıyor).
-✗ Share (navigator.share / panoya kopyalama) denenmedi.
+✓ Share: `navigator.share` yokken panoya yazıyor ve "Link copied" bildirimi çıkıyor (yerel sunucuda, pano taklit edilerek).
 
 ## Contact ve Valuation
 ✓ Contact: Selling notu, hata, başarı ("tomorrow morning" 17:00 sonrası).
