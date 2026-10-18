@@ -35,7 +35,7 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
           <div class="field"><label for="ce">Email</label><input id="ce" class="input" type="email" autocomplete="email" aria-describedby="e-ce" /><span class="err" id="e-ce" aria-live="polite"></span></div>
           <div class="field"><label for="ca">Area</label>
             <select id="ca" class="input"><option>Any of the six</option>{areas.map((a) => <option>{a.name}</option>)}<option>Not sure yet</option></select></div>
-          <div class="field"><label for="cm">Message (optional)</label><textarea id="cm" class="input"></textarea></div>
+          <div class="field"><label for="cm">Message <span style="font-weight:400;color:var(--text-3)">(optional)</span></label><textarea id="cm" class="input"></textarea></div>
           <button type="submit" class="btn btn-lg">Send</button>
           <p class="meta" style="font-size:13px;margin-top:16px">We only use your details to reply to you.</p>
         </div>
@@ -50,20 +50,23 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
 </Base>
 
 <style is:global>
-.ct{display:grid;grid-template-columns:5fr 6fr;gap:96px;padding-top:110px;padding-bottom:var(--section);align-items:start}
-.ct-h1{font-size:clamp(56px,7.8vw,112px);margin-top:16px}
-.ct-info{margin:44px 0 0;border-top:1px solid var(--ink)}
-.ct-info>div{display:grid;grid-template-columns:110px 1fr;padding:20px 0;border-bottom:1px solid var(--line);gap:16px}
-.ct-info dt{color:var(--text-3);font-size:15px}
-.ct-info dd{margin:0;font-weight:500}
+.ct{display:grid;grid-template-columns:5fr 6fr;gap:96px;padding-top:198px;padding-bottom:var(--section);align-items:start}
+.ct-h1{font-size:clamp(56px,7.8vw,112px);margin-top:18px}
+.ct-info{margin:56px 0 0;border-top:1px solid var(--ink)}
+.ct-info>div{display:flex;justify-content:space-between;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);font:500 18px/1.4 var(--font-body)}
+.ct-info dt{color:var(--text-3)}
+.ct-info dd{margin:0;font-weight:500;text-align:right}
 .ct-info dd span{display:block}
 .ct-info a:hover{text-decoration:underline}
 .ct-map{margin-top:40px;aspect-ratio:480/260;border-radius:20px}
 .ct-box{border:1px solid var(--line);border-radius:28px;padding:40px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.days{display:flex;flex-wrap:wrap;gap:8px}
+#ints .chip{font-weight:600}
+.ct-box .field{margin-bottom:22px}
 @media (max-width:1100px){.ct{gap:56px}}
 @media (max-width:768px){
-  .ct{grid-template-columns:1fr;gap:48px;padding-top:96px}
+  .ct{grid-template-columns:1fr;gap:48px;padding-top:108px}
   .ct-box{padding:24px;border-radius:24px}
   .two{grid-template-columns:1fr;gap:0}
 }

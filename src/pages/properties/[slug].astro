@@ -33,7 +33,7 @@ const pois = a.pois.map((p) => ({ ...p, min: walkMin([l.lat, l.lng], [p.lat, p.l
 const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i) => ({ i, cat: p.cat, lat: p.lat, lng: p.lng })) };
 ---
 <Base title={`${l.address}, ${a.name} — Monument`} description={`${l.kind} for ${l.status === 'sale' ? 'sale' : 'rent'} in ${a.name}, ${l.district}. ${l.beds} bed, ${l.baths} bath, ${l.size} m², BER ${l.ber}. ${priceText(l)}.`} ogPhoto={l.photos[0].file}>
-  <div class="wrap" style="padding-top:112px">
+  <div class="wrap ltop">
     <nav class="crumbs meta" aria-label="Breadcrumb">
       <a href="/properties/">Properties</a> / <a href={`/areas/#${a.slug}`}>{a.name}</a> / <span aria-current="page">{l.address}</span>
     </nav>
@@ -52,7 +52,7 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
       <div><dt class="eyebrow">Bedrooms</dt><dd class="num">{l.beds}</dd></div>
       <div><dt class="eyebrow">Bathrooms</dt><dd class="num">{l.baths}</dd></div>
       <div><dt class="eyebrow">Floor area</dt><dd class="num">{l.size} m²</dd></div>
-      <div><dt class="eyebrow">BER</dt><dd><Ber ber={l.ber} label={false} /></dd></div>
+      <div><dt class="eyebrow">BER</dt><dd><Ber ber={l.ber} /></dd></div>
     </dl>
 
     <div class="lgrid">
@@ -178,15 +178,17 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
 </Base>
 
 <style is:global>
+.ltop{padding-top:134px}
 .crumbs{padding:8px 0 28px}
 .crumbs a:hover{text-decoration:underline}
-.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
-.lh1{font-size:clamp(44px,5.3vw,76px);line-height:1;margin-top:16px}
-.strip5{margin:40px 0 0;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
-.strip5>div{padding:22px 0}
-.strip5 dt{margin-bottom:8px}
+.lhead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.lh1{font-size:clamp(44px,5.3vw,76px);line-height:1;margin-top:14px}
+.strip5{margin:36px 0 0;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.strip5>div{padding:20px 0}
+.strip5>div+div{padding-left:24px;border-left:1px solid var(--line)}
+.strip5 dt{margin-bottom:10px}
 .strip5 dd{margin:0;font:600 26px/1.2 var(--font-body)}
-.lgrid{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:0 56px;margin-top:48px;align-items:start}
+.lgrid{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:0 56px;margin-top:40px;align-items:start}
 .lg-gal{grid-column:1;grid-row:1}
 .lg-side{grid-column:2;grid-row:1/span 2;position:sticky;top:104px}
 .lg-rest{grid-column:1;grid-row:2;margin-top:72px}
@@ -237,10 +239,12 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
   .lg-rest{margin-top:56px}
 }
 @media (max-width:768px){
+  .ltop{padding-top:112px}
   .lh1{font-size:44px}
-  .lhead{flex-direction:column}
+  .lhead{flex-direction:column;align-items:flex-start}
   .strip5{grid-template-columns:1fr 1fr}
   .strip5 .pr{grid-column:1/-1}
+  .strip5>div+div{padding-left:0;border-left:0}
   .strip5>div{padding:16px 0}
   .feat{grid-template-columns:1fr}
   .locgrid{grid-template-columns:1fr}

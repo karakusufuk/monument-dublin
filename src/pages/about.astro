@@ -4,7 +4,7 @@ import Img from '../components/Img.astro';
 const line = 'Property is personal. Place is everything.';
 ---
 <Base title="About Monument — an independent Dublin estate agency" description="Monument is an independent estate agency working in six Dublin neighbourhoods. Meet the way we work." ogPhoto="ABOUT-2.webp">
-  <section class="wrap banner">
+  <section class="wrap banner ab-top">
     <p class="eyebrow">About Monument</p>
     <h1 class="ab-h1">Dublin is more than where we work.</h1>
     <div style="margin-top:72px" data-reveal>
@@ -46,6 +46,9 @@ const line = 'Property is personal. Place is everything.';
 <style is:global>
 .ab-h1{font-size:clamp(52px,7.8vw,112px);max-width:1100px;margin-top:16px}
 .ab-wide{width:100%;aspect-ratio:21/9;object-fit:cover;object-position:50% 55%;border-radius:24px}
+.banner.ab-top{padding-top:198px}
+.banner.ab-top .eyebrow{margin-bottom:18px}
+@media (max-width:768px){.banner.ab-top{padding-top:108px}}
 .ab-two{display:grid;grid-template-columns:5fr 6fr;gap:96px;align-items:center;padding-block:var(--section)}
 .ab-tall{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px}
 .mq{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:44px 0;overflow:hidden}
@@ -55,7 +58,7 @@ const line = 'Property is personal. Place is everything.';
 .mq-grp span{font:400 120px/1.15 var(--font-display);white-space:nowrap;margin-right:96px}
 .mq-static{display:none}
 @keyframes mq{to{transform:translateX(-50%)}}
-.ab-team{padding-block:var(--section);display:grid;grid-template-columns:6fr 5fr;gap:48px;align-items:end}
+.ab-team{padding-block:var(--section);display:grid;grid-template-columns:6fr 5fr;gap:96px;align-items:end}
 .ab-cta{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 @media (max-width:1100px){.ab-two{gap:56px}}
 @media (max-width:768px){

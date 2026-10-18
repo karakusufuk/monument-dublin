@@ -61,3 +61,35 @@ Test: Chrome (headless, puppeteer-core) ile `astro preview` üzerinde, 1440×900
 | /valuation/ | 99 | 100 | 100 | 100 | 1.7 s |
 
 Not: `/`, `/properties/` ve ilan sayfasında LCP 2.5 s sınırında; hedef <2.5 s. Perf 95+ olduğu için ayrıca optimize etmedim. İlan sayfasında ilk çalıştırmada `aria-allowed-attr` hatası vardı (sekmelerde `aria-pressed`), düzeltildi, yeniden ölçüldü.
+
+## İkinci kontrol
+
+Yöntem: Chrome (headless, puppeteer-core), `astro preview`, 1440×900 ve 390×844 (dokunmatik, 2x). Her sayfanın görünüm boyu ekran görüntüleri (kaydırarak ardışık) alındı, tek tek açılıp `reference/*.dc.html` kaynağındaki ölçü, boşluk, font ve sıra ile karşılaştırıldı. Görüntüler `kontrol/ikinci/` altında (git'e girmiyor). PROMPT.md ile reference çelişince PROMPT.md uygulandı.
+
+| Ekran | 1440 | 390 | Ne düzeltildi |
+|---|---|---|---|
+| Main (hero, durum 2, Local, vitrin, Areas bandı, footer) | ✓ | ✓ | Mobilde arama placeholder'ı butonun altına taşıyordu, `text-overflow: ellipsis` eklendi. Gerisi eşleşiyor. |
+| HeroScroll (durum 2) | ✓ | ✓ | Fark yok. |
+| Properties (+ hover) | ✓ | ✓ | **Header fixed olduğu için içerik header'ın altında 96px değil, 8px boşlukla başlıyordu**; `.banner` üst boşluğu header yüksekliği eklenerek 184px (mobilde 108px) yapıldı. Hover: gri zemin, radius 20, döndürülmüş üç foto, kalın yazı reference ile aynı. |
+| Listing | ✓ | ✓ | Breadcrumb'un üst boşluğu (34px → 56px), Share chip'i başlık bloğunun altına hizalı (reference), bilgi şeridinde sütun ayracı ve 24px iç boşluk, BER etiketinin yanına "BER D1" yazısı (4.5), şerit/başlık dikey aralıkları reference değerlerine çekildi. |
+| Areas | ✓ | ✓ | Üst boşluk banner düzeltmesiyle geldi. "Homes now" ve "Price" yan yana (reference), satır aralıkları 18px, ilan kartı aralığı 10px. **Fiyat sırası ters yazılıyordu** ("€3,450 / month · €1,195,000"); satılık önce, kiralık sonra yapıldı (6.4). |
+| About | ✓ | ✓ | Üst boşluk (reference 110px → 198px), eyebrow→h1 18px, Ekip bölümü aralığı 48 → 96px (reference). |
+| Contact | ✓ | ✓ | Üst boşluk (198px). Bilgi listesinde etiket solda, değer **sağa hizalı** (reference ve 6.6), 18px. "I'm interested in" chip'leri arasında boşluk yoktu (8px eklendi). "(optional)" ince ve gri. |
+| Valuation adım 1 | ✓ | ✓ | Header reference'taki gibi 1180px kenarlıklı hap oldu. İçerik 1180px, alan genişlikleri 560/640px. **Adım 1'de "Back" görünüyordu** (`.btn` `display` değeri `hidden` özelliğini eziyordu); genel `[hidden]{display:none!important}` eklendi. "Your home" Caslon 28px. |
+| Valuation adım 4 | ✓ | ✓ | Back/Continue en alta sabitlendi (6.7 "en altta"). Seçenekler radius 18, 17px. |
+| Valuation adım 5, bitiş | ✓ | ✓ | Name + Phone yan yana (reference). Kısa sayfalarda footer ekranın altında yüzüyordu (altında beyaz şerit); body min-height 100vh + main esnek, footer en alta yapıştı (Valuation, 404, Privacy, Terms). |
+| MobileHome | – | ✓ | Fark yok (hero, vitrin kartları, Areas bandı). |
+| MobileProperties | – | ✓ | Fark yok. Filtre paneli ve dropdown'lar daha önce denendi. |
+| Banners (Privacy, Terms, 404) | ✓ | ✓ | Üst boşluk banner düzeltmesiyle geldi, footer alta yapıştı. |
+
+### Mobil mini harita (gerçek dokunmatik kaydırma)
+✓ 390px'te `Input.synthesizeScrollGesture` (touch) ile 420px'lik altı kaydırma. Harita ekranın ortasına en yakın karta taşındı: Apt 9 Gallery Quay → 118 Clontarf Road → Apt 4 88 Rathmines Road Lower → 6 Chelmsford Lane (4 ardışık kart). Her adımda en yakın kart ile haritanın bulunduğu kart aynıydı.
+
+### Hero sticky boşluğu
+✓ Boşluk yakalama artefaktı. Tam sayfa görüntüde hero 200vh (1800px) yer kaplıyor, sticky sahne içinde duruyor; sahne bitince bir sonraki bölüm 140px (spec) boşlukla başlıyor. Görünüm boyu görüntülerde (kaydırma 0, 900, 1650) boşluk yok, hero'nun altı doğrudan Local knowledge'a bağlanıyor. Mobilde 160vh için aynı ölçüm: hero alt kenarı 1350px, sonraki bölüm 72px sonra.
+
+### Kapsam dışı bırakılanlar
+Admin paneli ve `site` adresi (`monument.example`) talimat gereği değiştirilmedi.
+
+### Hâlâ elle denenmeyenler
+Gerçek bir telefonda (iOS Safari) dokunmatik deneme yapılmadı; testler Chrome'un dokunmatik emülasyonuyla yapıldı.

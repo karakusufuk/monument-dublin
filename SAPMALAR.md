@@ -18,3 +18,9 @@
 - **astro check** · Çalışmıyor (Astro 7 + TypeScript 7 uyumsuz); tip kontrolü yerine build ve tarayıcı testi.
 - **Test araçları** · puppeteer-core ve lighthouse proje dışında (scratchpad) kuruldu; projeye paket eklenmedi.
 - **Sürümler** · Astro 7.4, maplibre-gl 6.14 (kurulum anında güncel).
+- **Header ofseti (ikinci kontrol)** · Header `fixed` olduğu için "header'ın altında 96px" (6.8) için `.banner` üst boşluğu 96 + 88 = 184px (mobilde 68 + 40 = 108px). Contact 110 + 88 = 198px, About 198px (reference 110px), Listing 56 + 88 = 144px.
+- **Areas fiyat sırası** · Satılık aralık önce, kiralık sonra ("€1,195,000 · €3,450 / month").
+- **Valuation header** · "Sade" header reference'taki gibi 1180px kenarlıklı hap; Close düğmesi 48px.
+- **Footer** · Kısa sayfalarda footer ekranın en altına yapışıyor (body `min-height:100vh`, `main` esnek).
+- **Genel `[hidden]`** · `[hidden]{display:none!important}`: `.btn` gibi `display` veren sınıflar `hidden` özelliğini eziyordu (ilk adımda Back görünüyordu).
+- **Listing bilgi şeridi** · Reference'taki gibi sütun ayracı ve BER yanında "BER D1" yazısı (4.5).

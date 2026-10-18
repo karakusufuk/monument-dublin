@@ -49,7 +49,7 @@ export const areaPriceRange = (slug: string) => {
     const f = (n: number) => (st === 'rent' ? `${eur(n)} / month` : eur(n));
     return lo === hi ? f(lo) : `${f(lo)} – ${f(hi)}`;
   };
-  return [part('rent'), part('sale')].filter(Boolean).join(' · ');
+  return [part('sale'), part('rent')].filter(Boolean).join(' · ');
 };
 
 export const haversine = (a: [number, number], b: [number, number]) => {
