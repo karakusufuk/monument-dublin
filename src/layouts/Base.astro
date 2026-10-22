@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { getImage } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ConceptModal from '../components/ConceptModal.astro';
 import { photo } from '../lib/photos';
 interface Props { title: string; description: string; ogPhoto?: string; home?: boolean; bare?: boolean; slimFooter?: boolean; bodyClass?: string }
 const { title, description, ogPhoto = 'HERO.webp', home = false, bare = false, slimFooter = false, bodyClass } = Astro.props;
@@ -33,7 +34,7 @@ const ogUrl = new URL(og.src, Astro.site).href;
   <slot name="top" />
   <main id="main" tabindex="-1"><slot /></main>
   <Footer slim={slimFooter} />
+  <ConceptModal />
   <script>import '../scripts/common';</script>
-  <p style="margin:0;padding:10px 16px;text-align:center;font:12px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.02em;background:#111;color:#c9c9c9">Portfolio demo, not a real business. Case study by Ufuk.</p>
 </body>
 </html>

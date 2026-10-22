@@ -1,3 +1,4 @@
+import { openConcept } from './concept';
 import { toast } from './common';
 import { MonMap, onNear } from './map';
 
@@ -127,8 +128,10 @@ $('#share').addEventListener('click', async () => {
     check('phone', 'Add a phone number or an email so we can reach you.', phOk || emOk);
     check('email', 'That email address doesn\'t look right.', !em || emOk);
     if (bad) { (bad === 'day' ? chips[0] : $<HTMLInputElement>({ name: '#bn', phone: '#bp', email: '#be' }[bad as string]!)).focus(); return; }
-    $('#bdone-t').textContent = `We'll call ${name} to confirm a time on ${day}.`;
-    $('#bform-in').hidden = true; $('#bdone').hidden = false;
+    openConcept('viewing', () => {
+      $('#bdone-t').textContent = `We'll call ${name} to confirm a time on ${day}.`;
+      $('#bform-in').hidden = true; $('#bdone').hidden = false;
+    });
   });
   $('#mbook').addEventListener('click', (e) => { e.preventDefault(); $('#book').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
 })();

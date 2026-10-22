@@ -1,3 +1,4 @@
+import { openConcept } from './concept';
 const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s)!;
 const areas = JSON.parse($('#vareas').textContent!) as { slug: string; name: string }[];
 const steps = [...document.querySelectorAll<HTMLElement>('.vs')];
@@ -83,7 +84,7 @@ function finish() {
 $('#vform').addEventListener('submit', (e) => {
   e.preventDefault();
   if (!validate()) return;
-  if (cur === 5) finish(); else show(cur + 1);
+  if (cur === 5) openConcept('valuation', finish); else show(cur + 1);
 });
 $('#vnext').addEventListener('click', (e) => { if ($('#vnext').getAttribute('aria-disabled') === 'true') e.preventDefault(); });
 $('#vback').addEventListener('click', () => show(cur - 1));

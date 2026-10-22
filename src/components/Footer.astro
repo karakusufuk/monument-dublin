@@ -15,7 +15,7 @@ const { slim = false } = Astro.props as { slim?: boolean };
           <ul>
             <li><a href={`tel:${PHONE.replace(/\s/g, '')}`}>{PHONE}</a></li>
             <li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
-            <li><address>{OFFICE}</address></li>
+            <li><address><a href="#directions" data-concept="address">{OFFICE}</a></address></li>
           </ul>
         </div>
         <div>
@@ -37,7 +37,7 @@ const { slim = false } = Astro.props as { slim?: boolean };
         <li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li>
         <li><a href="#" aria-disabled="true">Instagram</a></li><li><a href="#" aria-disabled="true">LinkedIn</a></li>
       </ul>
-      <span>Concept site · Design by Ufuk Karakuş</span>
     </div>
+    <p class="credit"><span>Portfolio demo, not a real business.</span><span>Designed by Ufuk Karakuş</span></p>
   </div>
 </footer>

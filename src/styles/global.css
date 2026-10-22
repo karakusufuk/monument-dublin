@@ -107,6 +107,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .ftr .bottom ul{display:flex;gap:24px}
 .ftr .bottom a{display:inline-flex;min-height:24px;align-items:center}
 .ftr .bottom a[aria-disabled]{pointer-events:none}
+.ftr address a:hover,.ct-info a:hover{text-decoration:underline}
 .ftr.slim{padding-top:0}.ftr.slim .bottom{margin-top:0;border-top:0}
 
 .toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font:600 14px/1 var(--font-body);z-index:120}
@@ -161,3 +162,6 @@ picture{display:contents}
 
 main{flex:1 0 auto}
 [hidden]{display:none!important}
+.ftr .credit{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:0;padding:0 0 28px;font-size:13px;color:var(--on-dark-3)}
+.ftr.slim .credit{padding-top:0}
+@media(max-width:767px){.ftr .credit{flex-direction:column;gap:6px}}

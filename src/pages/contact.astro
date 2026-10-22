@@ -14,7 +14,7 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
       <dl class="ct-info">
         <div><dt>Phone</dt><dd><a href={tel}>{PHONE}</a></dd></div>
         <div><dt>Email</dt><dd><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd></div>
-        <div><dt>Office</dt><dd>{OFFICE}</dd></div>
+        <div><dt>Office</dt><dd><a href="#directions" data-concept="address">{OFFICE}</a></dd></div>
         <div><dt>Hours</dt><dd>{HOURS.map((h) => <span>{h}</span>)}</dd></div>
       </dl>
       <div class="map ct-map" id="ctmap" data-lat={office.lat} data-lng={office.lng}></div>

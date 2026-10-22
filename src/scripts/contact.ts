@@ -1,3 +1,4 @@
+import { openConcept } from './concept';
 import { MonMap, onNear } from './map';
 const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
 
@@ -30,10 +31,12 @@ $('#cform').addEventListener('submit', (e) => {
   if (!name) return $('#cn').focus();
   if (!phOk && !emOk) return $('#cp').focus();
   if (em && !emOk) return $('#ce').focus();
+  openConcept('contact', () => {
   const now = new Date();
   const today = now.getHours() < 17 && now.getDay() !== 0;
   $('#cdone-h').textContent = `Thank you, ${name}.`;
   $('#cdone-t').textContent = `We'll call you back ${today ? 'today' : 'tomorrow morning'}.`;
   $('#cin').hidden = true; $('#cdone').hidden = false;
   $('#cdone-h').setAttribute('tabindex', '-1'); $('#cdone-h').focus();
+  });
 });
