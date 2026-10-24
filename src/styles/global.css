@@ -165,3 +165,36 @@ main{flex:1 0 auto}
 .ftr .credit{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:0;padding:0 0 28px;font-size:13px;color:var(--on-dark-3)}
 .ftr.slim .credit{padding-top:0}
 @media(max-width:767px){.ftr .credit{flex-direction:column;gap:6px}}
+
+/* ---------- Tablet + mobile (≤1100 px). Desktop rules above are untouched. ---------- */
+@media (max-width:1100px){
+  /* <picture> is display:contents, so its empty <source> boxes became grid/flex items (an extra 64 px gap above the
+     home intro photo on mobile, 48 px of dead scroll at the start of each photo strip). They don't render anything;
+     image selection is unaffected. */
+  picture>source{display:none}
+  /* footer legal links: 44 px tap targets */
+  .ftr .bottom ul{flex-wrap:wrap;gap:0 24px}
+  .ftr .bottom a{min-height:44px;min-width:44px}
+  /* footer column links: 40 px rows on touch (same rhythm for the hours lines) */
+  .ftr .grid li{margin-bottom:0}
+  .ftr .grid li a{display:inline-flex;align-items:center;min-height:40px}
+  .ftr .grid li p{padding:4px 0}
+  .ftr .bottom{padding-top:14px;padding-bottom:20px;align-items:center}
+  /* concept modal: never taller than the screen, scrolls inside */
+  .cpt .cpt-panel{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain}
+}
+@media (max-width:768px){
+  .hdr{top:calc(12px + env(safe-area-inset-top))}
+  .mnav{padding:calc(14px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));overflow-y:auto}
+  .mnav .top{min-height:56px}
+  .mnav .links a{font-size:clamp(34px,10vw,44px)}
+  .mnav .contact a{display:inline-flex;align-items:center;min-height:44px}
+  .ftr .bottom{gap:4px 24px;align-items:flex-start}
+}
+@media (min-width:769px) and (max-width:1100px){
+  /* nav links: wider hit area without moving them */
+  .hdr .nav a{padding-inline:6px;margin-inline:-6px}
+}
+@media (min-width:600px) and (max-width:768px){
+  .ftr .grid{grid-template-columns:1fr 1fr;gap:44px 32px}
+}

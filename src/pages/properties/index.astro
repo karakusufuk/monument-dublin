@@ -158,4 +158,25 @@ const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
   .dots i.on{background:#fff}
   .pend{flex-direction:column;align-items:flex-start;margin-top:56px}
 }
+
+/* ---------- Tablet + mobile (≤1100 px) ---------- */
+@media (max-width:1100px){
+  .sort .chip{min-height:44px}
+}
+/* tablet: the two extra photos (a hover fan on desktop) are shown inline beside the main one; filters fit one row */
+@media (min-width:769px) and (max-width:1100px){
+  .dd-btn{min-width:0}
+  .seg button{padding:0 20px}
+  .strip{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:190px;gap:10px;height:190px}
+  .strip img{position:static;min-width:0;height:190px;opacity:1!important;transform:none!important;box-shadow:none!important}
+  .strip .ph1{order:1}.strip .ph2{order:2}.strip .ph3{order:3}
+}
+/* small tablet portrait: two cards per row instead of one very tall card */
+@media (min-width:600px) and (max-width:768px){
+  .plist{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+}
+@media (max-width:768px){
+  .filters{padding-top:calc(20px + env(safe-area-inset-top))}
+  .ffoot{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+}
 </style>

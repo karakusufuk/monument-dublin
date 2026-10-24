@@ -221,4 +221,50 @@ const first = areas[0];
   .hero .sbar{margin-top:40px}
   .hero .scrim{position:absolute}
 }
+
+/* ---------- Tablet + mobile (≤1100 px) ---------- */
+/* The scroll-driven hero (state 1 fades out, the search fades in while the stage is pinned) only half-works by touch:
+   the search is invisible until you scroll, then slides up under the header, and on Android the keyboard resize
+   re-computes the scroll progress and fades the field out while typing. Below 1101 px the opening is static —
+   headline, question and search all visible at once. home.ts skips the scroll effect at the same width. */
+@media (max-width:1100px){
+  .hero{height:auto}
+  .hero .stage{position:relative;height:100vh;height:100svh;min-height:560px;max-height:1100px;overflow:visible;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:88px 20px 40px;--o:.44}
+  .hero .layer{position:relative;inset:auto;display:flex;width:100%;padding:0;opacity:1!important;transform:none!important}
+  .hero .l1{pointer-events:auto!important}
+  .hero .l2{pointer-events:auto!important;margin-top:clamp(28px,5vh,48px)}
+  .hero .t1{font-size:clamp(46px,12.4vw,104px)}
+  .hero .t2{display:block;font-size:clamp(25px,5.6vw,44px);line-height:1.15;opacity:1!important;transform:none!important}
+  .hero .sbar{margin-top:clamp(16px,2.6vh,24px);opacity:1!important;transform:none!important}
+  .slist{max-height:min(420px,46svh)}
+  .slist li{padding:8px 14px}
+}
+/* tablet: the map beside each home is shown by touch (on desktop it slides in on hover) */
+@media (min-width:769px) and (max-width:1100px){
+  .rows .row{grid-template-columns:3fr 1.7fr 1fr 4fr;gap:20px;padding:18px 20px}
+  .rows .row .vis{grid-template-columns:1fr 1fr;gap:12px;height:150px}
+  .rows .row .slot{opacity:1}
+}
+@media (max-width:1100px) and (hover:none){
+  .hint-d{display:none}.hint-m{display:inline}
+}
+@media (min-width:600px) and (max-width:768px){
+  .notes{grid-template-columns:1fr 1fr;gap:0 32px}
+  .rows{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+}
+@media (max-width:768px){
+  .props-head{flex-wrap:wrap;gap:6px 24px}
+  .props-head .meta{font-size:16px!important}
+  /* address and price share a line; the area · beds · BER line runs full width underneath (it used to wrap mid-word) */
+  .rows .row{grid-template-areas:"vis vis" "addr price" "sub sub";row-gap:0}
+  .row .r-addr{display:contents}
+  .row .r-addr strong{grid-area:addr;margin-top:14px}
+  .row .r-price{margin-top:16px}
+  .row .r-addr .sub-m{grid-area:sub;margin-top:4px}
+  /* the per-area home count stays on the chip */
+  .alist a{gap:8px}
+  .alist a .ac,.alist a.active .ac{display:inline;font:500 13px/1 var(--font-body);color:var(--on-dark-3)}
+  .alist a.active .ac{color:var(--text-3)}
+  .alist a .ac::after,.alist a.active .ac::after{content:none}
+}
 </style>

@@ -14,6 +14,8 @@ const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 let opener: HTMLElement | null = null;
 let after: (() => void) | undefined;
 let isOpen = false;
+// body overflow before the modal opened (the mobile menu or filter panel may already have locked scrolling)
+let prevOverflow = '';
 
 const root = () => document.getElementById('cpt')!;
 
@@ -26,6 +28,7 @@ export function openConcept(kind: ConceptKind, onClose?: () => void) {
   m.querySelector('#cpt-body')!.textContent = `In a live build, ${BODY[kind]}.`;
   m.hidden = false;
   isOpen = true;
+  prevOverflow = document.body.style.overflow;
   document.body.style.overflow = 'hidden';
   requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('show')));
   (m.querySelector('#cpt-close') as HTMLElement).focus();
@@ -38,7 +41,7 @@ function close() {
   m.classList.remove('show');
   const done = () => {
     m.hidden = true;
-    document.body.style.overflow = '';
+    document.body.style.overflow = prevOverflow;
     if (opener && document.contains(opener)) opener.focus();
     const cb = after; after = undefined; opener = null;
     cb?.();

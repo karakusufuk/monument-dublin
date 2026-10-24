@@ -255,4 +255,21 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
   .mbar{display:grid;grid-template-columns:1fr 2fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 16px}
   .ftr{padding-bottom:76px}
 }
+
+/* ---------- Tablet + mobile (≤1100 px) ---------- */
+@media (max-width:1100px){
+  .crumbs{padding:0 0 18px}
+  .crumbs a{display:inline-flex;align-items:center;min-height:44px}
+  .sim .sec-h .link-u{display:inline-flex;align-items:center;min-height:44px}
+}
+@media (min-width:600px) and (max-width:768px){
+  .strip5{grid-template-columns:repeat(4,1fr)}
+  .simgrid{grid-template-columns:repeat(3,1fr);gap:16px}
+  .simcard strong{font-size:16px}
+}
+@media (max-width:768px){
+  .lh1{font-size:clamp(38px,11vw,60px)}
+  .mbar{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+  .ftr{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+}
 </style>

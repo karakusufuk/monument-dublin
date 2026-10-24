@@ -59,7 +59,8 @@ function menu() {
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
-  m.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { document.body.style.overflow = ''; }));
+  // links that leave the page release the scroll lock; phone / email links open the concept modal over the menu instead
+  m.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { if (!/^(tel|mailto):/i.test(a.getAttribute('href') || '')) document.body.style.overflow = ''; }));
 }
 
 function reveal() {

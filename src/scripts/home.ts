@@ -9,11 +9,18 @@ const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
 function hero() {
   const sec = $('#hero'), stage = $('#stage'), l1 = $('#l1'), l2 = $('#l2'), bar = $('#sform');
   const t2 = $('.t2', l2);
+  // Tablet + mobile (≤1100 px): the opening is static (index.astro); the scroll effect runs only above that width.
+  const still = matchMedia('(max-width:1100px)');
   const progress = () => {
     const range = sec.offsetHeight - innerHeight;
     return range <= 0 ? 0 : clamp((scrollY - sec.offsetTop) / range);
   };
   const apply = () => {
+    if (still.matches) {
+      for (const e of [l1, l2, t2, bar]) e.removeAttribute('style');
+      stage.style.removeProperty('--o');
+      return;
+    }
     const p = progress();
     const a = seg(p, 0, 0.35), b = seg(p, 0.3, 0.6), c = seg(p, 0.4, 0.7);
     l1.style.opacity = String(1 - a); l1.style.transform = `translateY(${-24 * a}px)`;
@@ -28,12 +35,23 @@ function hero() {
     let tick = false;
     addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(() => { tick = false; apply(); }); } }, { passive: true });
     addEventListener('resize', apply);
+    still.addEventListener('change', apply);
     apply();
     // keyboard users reaching the search field: bring state 2 into view (a plain scroll, not a lock)
     l2.addEventListener('focusin', () => {
-      if (progress() < 0.7) scrollTo({ top: sec.offsetTop + 0.7 * (sec.offsetHeight - innerHeight) });
+      if (!still.matches && progress() < 0.7) scrollTo({ top: sec.offsetTop + 0.7 * (sec.offsetHeight - innerHeight) });
     });
   }
+  // Static opening, touch: when the field gets focus, lift the search bar to just under the header so the
+  // suggestions have room above the on-screen keyboard.
+  const coarse = matchMedia('(pointer:coarse)');
+  $('#sq').addEventListener('focus', () => {
+    if (!still.matches || !coarse.matches) return;
+    setTimeout(() => {
+      const d = bar.getBoundingClientRect().top - 84;
+      if (Math.abs(d) > 24) scrollTo({ top: scrollY + d, behavior: reduce ? 'auto' : 'smooth' });
+    }, 250);
+  });
 }
 
 /* ---------- Search suggestions ---------- */
@@ -154,7 +172,8 @@ function band() {
   };
   const links = [...document.querySelectorAll<HTMLAnchorElement>('#alist a')];
   const el = $('#bmap');
-  const mobile = matchMedia('(max-width:768px)');
+  // touch tablets get the mobile behaviour too: first tap previews the area on the map, second tap opens its homes
+  const mobile = matchMedia('(max-width:768px), (max-width:1100px) and (hover:none)');
   let mm: MonMap | null = null;
   let active = d.areas[0].slug;
   const apply = (slug: string, animate: boolean) => {

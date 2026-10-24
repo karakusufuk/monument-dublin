@@ -120,4 +120,17 @@ const opt = (list: string[], key: string) => list.map((t) => ({ t, key }));
   .vnav .btn{flex:1}
   .vsum .vbox{padding:20px}
 }
+/* ---------- Tablet + mobile (≤1100 px) ---------- */
+@media (max-width:768px){
+  /* "Free valuation · about 2 minutes" was hidden on mobile: keep it (in the bar from 600 px, under it below) */
+  .vmid{display:block;font-size:14px;white-space:nowrap}
+  .vnav{padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  /* the fixed Continue bar must not cover the footer's last lines */
+  .ftr{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+}
+@media (max-width:599px){
+  .vhdr{position:relative}
+  .vmid{position:absolute;left:8px;top:calc(100% + 14px)}
+  .vwrap{padding-top:64px}
+}
 </style>

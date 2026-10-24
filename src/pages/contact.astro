@@ -70,4 +70,16 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
   .ct-box{padding:24px;border-radius:24px}
   .two{grid-template-columns:1fr;gap:0}
 }
+/* ---------- Tablet + mobile (≤1100 px) ---------- */
+@media (max-width:1100px){
+  .ct-info dd a{display:inline-flex;align-items:center;min-height:44px;margin:-10px 0}
+  #selnote a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;margin:-12px 0;vertical-align:middle}
+}
+@media (min-width:600px) and (max-width:768px){
+  .two{grid-template-columns:1fr 1fr;gap:16px}
+  .ct-box{padding:32px}
+}
+@media (max-width:599px){
+  #cform .btn-lg{width:100%}
+}
 </style>
