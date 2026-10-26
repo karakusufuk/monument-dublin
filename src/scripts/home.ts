@@ -5,23 +5,17 @@ const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.quer
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
 
-/* ---------- Hero scroll transition (never blocks scrolling) ---------- */
+/* ---------- Hero: one scroll gesture = one step ----------
+   The first scroll down only brings the search in: a timed transition that finishes and holds, whatever the
+   force of the gesture (wheel inertia, key repeat and a continuing swipe are absorbed). The page scrolls on
+   only with the next, separate gesture. A fresh scroll up at the very top plays it back. */
 function hero() {
-  const sec = $('#hero'), stage = $('#stage'), l1 = $('#l1'), l2 = $('#l2'), bar = $('#sform');
+  const stage = $('#stage'), l1 = $('#l1'), l2 = $('#l2'), bar = $('#sform');
   const t2 = $('.t2', l2);
-  // Tablet + mobile (≤1100 px): the opening is static (index.astro); the scroll effect runs only above that width.
+  // Tablet + mobile (≤1100 px): the opening is static (index.astro); the gate runs only above that width.
   const still = matchMedia('(max-width:1100px)');
-  const progress = () => {
-    const range = sec.offsetHeight - innerHeight;
-    return range <= 0 ? 0 : clamp((scrollY - sec.offsetTop) / range);
-  };
-  const apply = () => {
-    if (still.matches) {
-      for (const e of [l1, l2, t2, bar]) e.removeAttribute('style');
-      stage.style.removeProperty('--o');
-      return;
-    }
-    const p = progress();
+  const P = 0.7; // end of the transition, on the original 0..1 scale of the three fades below
+  const draw = (p: number) => {
     const a = seg(p, 0, 0.35), b = seg(p, 0.3, 0.6), c = seg(p, 0.4, 0.7);
     l1.style.opacity = String(1 - a); l1.style.transform = `translateY(${-24 * a}px)`;
     t2.style.opacity = String(b); t2.style.transform = `translateY(${24 * (1 - b)}px)`;
@@ -31,16 +25,69 @@ function hero() {
     l1.style.pointerEvents = 'none';
     stage.style.setProperty('--o', String(0.38 + 0.1 * seg(p, 0, 0.7)));
   };
+  let step = 0, running = false, locked = false, lastWheel = 0;
+  const apply = () => {
+    if (still.matches) {
+      for (const e of [l1, l2, t2, bar]) e.removeAttribute('style');
+      stage.style.removeProperty('--o');
+      return;
+    }
+    draw(step ? P : 0);
+  };
   if (!reduce) {
-    let tick = false;
-    addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(() => { tick = false; apply(); }); } }, { passive: true });
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const go = (to: 0 | 1, ms = 1100) => {
+      if (running || step === to) return;
+      running = true; locked = true;
+      const from = step ? P : 0, goal = to ? P : 0, t0 = performance.now();
+      const frame = (now: number) => {
+        const t = clamp((now - t0) / ms);
+        draw(from + (goal - from) * ease(t));
+        if (t < 1) requestAnimationFrame(frame); else { step = to; running = false; }
+      };
+      requestAnimationFrame(frame);
+    };
+    const gateOn = () => !still.matches && scrollY <= 2 && document.body.style.overflow !== 'hidden';
+    addEventListener('wheel', (e) => {
+      const now = performance.now(), fresh = now - lastWheel > 140;
+      lastWheel = now;
+      if (!gateOn() || e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || e.deltaY === 0) return;
+      if (running || (locked && !fresh)) { e.preventDefault(); return; }
+      locked = false;
+      if (!fresh) return;
+      if (e.deltaY > 0 && !step) { e.preventDefault(); go(1); }
+      else if (e.deltaY < 0 && step && scrollY <= 0) { e.preventDefault(); go(0); }
+    }, { passive: false });
+    let y0 = 0, touched = false;
+    addEventListener('touchstart', (e) => { y0 = e.touches[0].clientY; touched = false; }, { passive: true });
+    addEventListener('touchmove', (e) => {
+      if (!gateOn()) return;
+      if (running || touched) { if (e.cancelable) e.preventDefault(); return; }
+      const dy = y0 - e.touches[0].clientY;
+      if (dy > 12 && !step) { touched = true; if (e.cancelable) e.preventDefault(); go(1); }
+      else if (dy < -12 && step && scrollY <= 0) { touched = true; if (e.cancelable) e.preventDefault(); go(0); }
+    }, { passive: false });
+    addEventListener('touchend', () => { touched = false; }, { passive: true });
+    addEventListener('keydown', (e) => {
+      if (!gateOn() || e.altKey || e.ctrlKey || e.metaKey) return;
+      const t = e.target as HTMLElement;
+      if (/^(INPUT|TEXTAREA|SELECT|BUTTON|A)$/.test(t.tagName) || t.isContentEditable) return;
+      const down = e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'End' || (e.key === ' ' && !e.shiftKey);
+      const up = e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Home' || (e.key === ' ' && e.shiftKey);
+      if (!down && !up) return;
+      if (running || (locked && e.repeat)) { e.preventDefault(); return; }
+      locked = false;
+      if (down && !step) { e.preventDefault(); go(1); }
+      else if (up && step && scrollY <= 0) { e.preventDefault(); go(0); }
+    });
+    // arriving by scrollbar, anchor or a restored scroll position: show the search state without the gate
+    addEventListener('scroll', () => { if (scrollY > 2 && !step && !running) { step = 1; apply(); } }, { passive: true });
     addEventListener('resize', apply);
     still.addEventListener('change', apply);
+    if (scrollY > 2) step = 1;
     apply();
-    // keyboard users reaching the search field: bring state 2 into view (a plain scroll, not a lock)
-    l2.addEventListener('focusin', () => {
-      if (!still.matches && progress() < 0.7) scrollTo({ top: sec.offsetTop + 0.7 * (sec.offsetHeight - innerHeight) });
-    });
+    // keyboard users reaching the search field: bring the search in
+    l2.addEventListener('focusin', () => { if (!still.matches && !step) go(1, 500); });
   }
   // Static opening, touch: when the field gets focus, lift the search bar to just under the header so the
   // suggestions have room above the on-screen keyboard.
@@ -188,7 +235,7 @@ function band() {
     if (!mm) return;
     mm.setCircle(a.center, a.radius);
     for (const l of d.listings) mm.setKind(l.slug, l.area === slug ? 'home' : 'dim');
-    if (animate) mm.ease(a.center, bz(), 600); else mm.jump(a.center, bz());
+    if (animate) mm.ease(a.center, bz(), 1200); else mm.jump(a.center, bz());
   };
   onNear(el, async () => {
     const a = d.areas.find((x) => x.slug === active)!;

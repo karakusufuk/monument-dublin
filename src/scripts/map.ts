@@ -125,16 +125,16 @@ export class MonMap {
   removePin(id: string) { const p = this.pins.get(id); if (p) { p.m.remove(); this.pins.delete(id); } }
   clearPins(prefix = '') { for (const id of [...this.pins.keys()]) if (id.startsWith(prefix)) this.removePin(id); }
 
-  ease(c: LL, zoom: number, ms = 600) {
+  ease(c: LL, zoom: number, ms = 1200) {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.map.easeTo({ center: [c[1], c[0]], zoom, duration: reduce ? 0 : ms, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
+    this.map.easeTo({ center: [c[1], c[0]], zoom, duration: reduce ? 0 : ms, easing: (t: number) => -(Math.cos(Math.PI * t) - 1) / 2 });
   }
   jump(c: LL, zoom?: number) { this.map.jumpTo({ center: [c[1], c[0]], ...(zoom ? { zoom } : {}) }); }
   fit(pts: LL[], padding = 48, ms = 600) {
     const b = new this.ml.LngLatBounds();
     pts.forEach((p) => b.extend([p[1], p[0]]));
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.map.fitBounds(b, { padding, duration: reduce ? 0 : ms, maxZoom: 16, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
+    this.map.fitBounds(b, { padding, duration: reduce ? 0 : ms, maxZoom: 16, easing: (t: number) => -(Math.cos(Math.PI * t) - 1) / 2 });
   }
   resize() { this.map.resize(); }
 }

@@ -112,8 +112,8 @@ const first = areas[0];
 </Base>
 
 <style is:global>
-.hero{height:200vh;position:relative}
-.hero .stage{position:sticky;top:0;height:100vh;min-height:640px;overflow:hidden;color:#fff;--o:.38}
+.hero{position:relative}
+.hero .stage{position:relative;height:100vh;min-height:640px;overflow:hidden;color:#fff;--o:.38}
 .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
 .hero .scrim{position:absolute;inset:0;background:rgba(14,14,14,var(--o))}
 .hero .layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;text-align:center}
@@ -141,15 +141,15 @@ const first = areas[0];
 .notes a:hover strong{text-decoration:underline;text-underline-offset:4px}
 
 .props-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--ink)}
-.rows .row{display:grid;grid-template-columns:4fr 2fr 1.4fr 3fr;gap:24px;align-items:center;padding:20px 28px;border-bottom:1px solid var(--line);transition:background var(--t-fast),color var(--t-fast),border-radius var(--t-fast)}
+.rows .row{display:grid;grid-template-columns:4fr 2fr 1.4fr 3fr;gap:24px;align-items:center;padding:20px 28px;border-bottom:1px solid var(--line);transition:background var(--t-fast),color var(--t-fast),border-radius var(--t-fast),border-color var(--t-fast)}
 .row .r-addr strong{display:block;font:600 20px/1.3 var(--font-body)}
 .row .r-addr span{display:block;font-size:14px;color:var(--text-3);margin-top:2px;transition:color var(--t-fast)}
 .row .sub-m{display:none!important}
 .row .r-price{font:500 18px/1.3 var(--font-body)}
-.row .vis{display:grid;grid-template-columns:1fr 0fr;height:140px;transition:grid-template-columns var(--t-fast),gap var(--t-fast)}
+.row .vis{display:grid;grid-template-columns:1fr 0fr;height:140px;transition:grid-template-columns 900ms cubic-bezier(.45,0,.2,1),gap 900ms cubic-bezier(.45,0,.2,1)}
 .row .vph{min-width:0;border-radius:14px;overflow:hidden;background:var(--placeholder)}
 .row .vph img{width:100%;height:100%;object-fit:cover}
-.row .slot{min-width:0;position:relative;overflow:hidden;border-radius:14px;background:var(--placeholder);opacity:0;transition:opacity var(--t-fast)}
+.row .slot{min-width:0;position:relative;overflow:hidden;border-radius:14px;background:var(--placeholder);opacity:0;transition:opacity 700ms ease 150ms}
 .ph-pin{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--pink);border:2px solid #fff}
 .mini{position:absolute;top:0;right:0;height:100%;border-radius:14px}
 .mini[hidden]{display:none}
@@ -159,6 +159,9 @@ const first = areas[0];
   .rows .row:hover .eyebrow,.rows .row:focus-visible .eyebrow{color:var(--on-dark-2)}
   .rows .row:hover .vis,.rows .row:focus-visible .vis{grid-template-columns:1fr 1fr;gap:12px}
   .rows .row:hover .slot,.rows .row:focus-visible .slot{opacity:1}
+  /* the dark block sits clean: no divider on the line above it either */
+  .rows .row:has(+ .row:hover),.rows .row:has(+ .row:focus-visible){border-bottom-color:transparent}
+  .props-head:has(+ .rows > .row:first-child:hover),.props-head:has(+ .rows > .row:first-child:focus-visible){border-bottom-color:transparent}
 }
 
 .band{background:var(--ink);color:#fff;padding:110px 0}
@@ -182,7 +185,6 @@ const first = areas[0];
 
 @media (max-width:1100px){.local-grid{gap:48px}.notes{grid-template-columns:repeat(2,1fr)}.band-grid{gap:40px}}
 @media (max-width:768px){
-  .hero{height:160vh}
   .hero .bg{object-position:62% 50%}
   .hero .sbar{height:60px;padding-left:22px;margin-top:32px}
   .hero .sgo{width:48px;height:48px}
@@ -212,8 +214,6 @@ const first = areas[0];
   .val{flex-direction:column;align-items:flex-start;gap:28px;padding-inline:20px}
 }
 @media (prefers-reduced-motion:reduce){
-  .hero{height:100vh}
-  .hero .stage{position:relative}
   .hero .layer{position:static;display:flex;opacity:1!important;transform:none!important}
   .hero .stage{display:flex;flex-direction:column;align-items:center;justify-content:center}
   .hero .l2{opacity:1;pointer-events:auto}
