@@ -146,6 +146,7 @@ function update() {
   $('#empty').hidden = shown > 0;
   document.querySelectorAll<HTMLElement>('[data-status]').forEach((b) => { if (b.tagName === 'BUTTON') b.setAttribute('aria-pressed', String(b.dataset.status === state.status)); });
   document.querySelectorAll<HTMLElement>('[data-sort]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.sort === state.sort)));
+  placeSeg();
   ddEls.forEach(({ d, btn }) => { $('.v', btn).textContent = d.text(); btn.classList.toggle('set', d.isSet()); });
   const n = filterCount();
   $('#fopen').textContent = n ? `Filters · ${n}` : 'Filters';
@@ -180,5 +181,19 @@ rows.forEach((r) => {
   }, { passive: true });
 });
 
+/* For sale / To rent: on phones the ink pill slides to the chosen side (CSS in properties/index.astro, ≤768 px).
+   It is placed without motion first; only later changes animate. */
+const seg = $('#seg');
+function placeSeg() {
+  const b = seg.querySelector<HTMLElement>('button[aria-pressed=true]');
+  if (!b) return;
+  seg.style.setProperty('--x', `${b.offsetLeft}px`);
+  seg.style.setProperty('--w', `${b.offsetWidth}px`);
+}
+seg.classList.add('slide');
+addEventListener('resize', placeSeg);
+document.fonts?.ready.then(placeSeg);
+
 readURL();
 update();
+requestAnimationFrame(() => requestAnimationFrame(() => seg.classList.add('ready')));

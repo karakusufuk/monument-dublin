@@ -53,7 +53,7 @@ const line = 'Property is personal. Place is everything.';
 .ab-tall{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px}
 .mq{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:44px 0;overflow:hidden}
 .mq-track{display:flex;width:max-content;animation:mq 60s linear infinite}
-.mq-track:hover{animation-play-state:paused}
+@media (hover:hover) and (pointer:fine){.mq-track:hover{animation-play-state:paused}}
 .mq-grp{display:flex;flex:none}
 .mq-grp span{font:400 120px/1.15 var(--font-display);white-space:nowrap;margin-right:96px}
 .mq-static{display:none}

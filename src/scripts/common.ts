@@ -59,8 +59,16 @@ function menu() {
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
-  // links that leave the page release the scroll lock; phone / email links open the concept modal over the menu instead
+  // links that leave the page release the scroll lock; phone / email links do nothing (demoLinks), so the menu stays as it is
   m.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { if (!/^(tel|mailto):/i.test(a.getAttribute('href') || '')) document.body.style.overflow = ''; }));
+}
+
+// Demo actions: phone, email and office-address links do nothing on this concept site (no message, never dials).
+// The links stay in the markup; one document-level listener cancels them.
+function demoLinks() {
+  document.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a[href^="tel:"],a[href^="mailto:"],a[data-demo]')) e.preventDefault();
+  });
 }
 
 function reveal() {
@@ -80,4 +88,4 @@ function reveal() {
   els.forEach((e) => io.observe(e));
 }
 
-header(); menu(); reveal();
+header(); menu(); reveal(); demoLinks();

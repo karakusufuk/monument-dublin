@@ -1,4 +1,3 @@
-import { openConcept } from './concept';
 import { MonMap, onNear } from './map';
 const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
 
@@ -9,34 +8,11 @@ onNear(mapEl, async () => {
   mm.addPin('o', ll, 'office');
 });
 
-let interest = 'Buying';
 const chips = [...document.querySelectorAll<HTMLElement>('#ints .chip')];
 chips.forEach((c) => c.addEventListener('click', () => {
-  interest = c.dataset.v!;
   chips.forEach((x) => x.setAttribute('aria-checked', String(x === c)));
-  $('#selnote').hidden = interest !== 'Selling';
+  $('#selnote').hidden = c.dataset.v !== 'Selling';
 }));
 
-const err = (id: string, m: string, field?: string) => {
-  $(`#e-${id}`).textContent = m;
-  if (field) $(field).setAttribute('aria-invalid', String(!!m));
-};
-$('#cform').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = $<HTMLInputElement>('#cn').value.trim(), ph = $<HTMLInputElement>('#cp').value.trim(), em = $<HTMLInputElement>('#ce').value.trim();
-  const phOk = ph.replace(/\D/g, '').length >= 7, emOk = /^\S+@\S+\.\S+$/.test(em);
-  err('cn', name ? '' : 'Please tell us your name.', '#cn');
-  err('cp', phOk || emOk ? '' : 'Add a phone number or an email so we can reach you.', '#cp');
-  err('ce', !em || emOk ? '' : "That email address doesn't look right.", '#ce');
-  if (!name) return $('#cn').focus();
-  if (!phOk && !emOk) return $('#cp').focus();
-  if (em && !emOk) return $('#ce').focus();
-  openConcept('contact', () => {
-  const now = new Date();
-  const today = now.getHours() < 17 && now.getDay() !== 0;
-  $('#cdone-h').textContent = `Thank you, ${name}.`;
-  $('#cdone-t').textContent = `We'll call you back ${today ? 'today' : 'tomorrow morning'}.`;
-  $('#cin').hidden = true; $('#cdone').hidden = false;
-  $('#cdone-h').setAttribute('tabindex', '-1'); $('#cdone-h').focus();
-  });
-});
+// Send is a demo action: the button stays visible, faded and inactive (disabled in the markup); nothing is sent
+$('#cform').addEventListener('submit', (e) => e.preventDefault());

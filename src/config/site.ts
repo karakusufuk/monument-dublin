@@ -10,4 +10,3 @@ export const EMAIL = 'hello@monument.ufuk.ie';
 export const OFFICE = '14 Herbert Street, Dublin 2';
 export const HOURS = ['Mon–Fri 9:00–18:00', 'Sat 10:00–14:00', 'Viewings by appointment'];
 export const SITE_NAME = 'Monument';
-export const CASE_STUDY_URL = 'https://ufuk.ie/work/monument';

@@ -1,0 +1,18 @@
+---
+// Monument's own select: a button (role=combobox) and a listbox. No native picker on any device.
+// Nothing is chosen on load; the placeholder shows in the field's muted colour until the visitor picks.
+// Value: the button's data-value, with 'input' and 'change' events on the button when it changes (scripts/combo.ts).
+interface Props { id: string; label: string; options: { v: string; t: string }[]; placeholder: string; describedby?: string; cls?: string }
+const { id, label, options, placeholder, describedby, cls } = Astro.props;
+---
+<span class="lbl" id={`${id}-l`}>{label}</span>
+<div class="combo" data-combo>
+  <button type="button" id={id} class:list={['input', 'combo-btn', cls]} role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls={`${id}-lb`} aria-labelledby={`${id}-l ${id}`} aria-describedby={describedby} data-value="" data-placeholder={placeholder}>
+    <span class="cv ph">{placeholder}</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>
+  </button>
+  <ul class="combo-lb" id={`${id}-lb`} role="listbox" aria-labelledby={`${id}-l`} tabindex="-1" hidden>
+    {options.map((o, i) => <li role="option" id={`${id}-o${i}`} data-v={o.v} aria-selected="false">{o.t}</li>)}
+  </ul>
+</div>
+<script>import '../scripts/combo';</script>

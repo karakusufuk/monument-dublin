@@ -1,4 +1,3 @@
-import { openConcept } from './concept';
 import { toast } from './common';
 import { MonMap, onNear } from './map';
 
@@ -105,33 +104,10 @@ $('#share').addEventListener('click', async () => {
     if (dt.getDay() === 0) continue;
     list.push(fmt.format(dt).replace(/^(\w+)\s+(\d+)$/, '$1 $2').replace(/^(\d+)\s+(\w+)$/, '$2 $1'));
   }
-  let day = '';
   days.innerHTML = list.map((t) => `<button type="button" class="chip" role="radio" aria-checked="false" data-d="${t}">${t}</button>`).join('');
   const chips = $$('#days .chip');
-  chips.forEach((c) => c.addEventListener('click', () => {
-    day = c.dataset.d!; chips.forEach((x) => x.setAttribute('aria-checked', String(x === c)));
-    setErr('day', '');
-  }));
-  const setErr = (k: string, msg: string) => {
-    const e = $(`#e-${k}`); e.textContent = msg;
-    const f = k === 'day' ? null : $<HTMLInputElement>({ name: '#bn', phone: '#bp', email: '#be' }[k]!);
-    f?.setAttribute('aria-invalid', String(!!msg));
-  };
-  $('#bform').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = $<HTMLInputElement>('#bn').value.trim(), ph = $<HTMLInputElement>('#bp').value.trim(), em = $<HTMLInputElement>('#be').value.trim();
-    let bad: string | null = null;
-    const check = (k: string, msg: string, ok: boolean) => { setErr(k, ok ? '' : msg); if (!ok && !bad) bad = k; };
-    check('day', 'Please choose a day.', !!day);
-    check('name', 'Please tell us your name.', !!name);
-    const phOk = ph.replace(/\D/g, '').length >= 7, emOk = /^\S+@\S+\.\S+$/.test(em);
-    check('phone', 'Add a phone number or an email so we can reach you.', phOk || emOk);
-    check('email', 'That email address doesn\'t look right.', !em || emOk);
-    if (bad) { (bad === 'day' ? chips[0] : $<HTMLInputElement>({ name: '#bn', phone: '#bp', email: '#be' }[bad as string]!)).focus(); return; }
-    openConcept('viewing', () => {
-      $('#bdone-t').textContent = `We'll call ${name} to confirm a time on ${day}.`;
-      $('#bform-in').hidden = true; $('#bdone').hidden = false;
-    });
-  });
+  chips.forEach((c) => c.addEventListener('click', () => chips.forEach((x) => x.setAttribute('aria-checked', String(x === c)))));
+  // Request viewing is a demo action: the button stays visible, faded and inactive (disabled in the markup); nothing is sent
+  $('#bform').addEventListener('submit', (e) => e.preventDefault());
   $('#mbook').addEventListener('click', (e) => { e.preventDefault(); $('#book').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
 })();

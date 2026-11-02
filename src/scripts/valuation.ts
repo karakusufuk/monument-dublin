@@ -1,4 +1,4 @@
-import { openConcept } from './concept';
+import { comboValue } from './combo';
 const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s)!;
 const areas = JSON.parse($('#vareas').textContent!) as { slug: string; name: string }[];
 const steps = [...document.querySelectorAll<HTMLElement>('.vs')];
@@ -18,13 +18,13 @@ const chosen = () => (cur === 2 ? ans.type : cur === 3 ? ans.beds : cur === 4 ? 
 function summary() {
   const set = (id: string, v: string) => ($(id).textContent = v || '—');
   const addr = $<HTMLInputElement>('#va').value.trim();
-  const area = $<HTMLSelectElement>('#vr');
-  const aname = area.value === 'elsewhere' ? 'Elsewhere in Dublin' : areas.find((a) => a.slug === area.value)?.name;
+  const area = comboValue($('#vr'));
+  const aname = area === 'elsewhere' ? 'Elsewhere in Dublin' : areas.find((a) => a.slug === area)?.name;
   set('#s-addr', [addr, aname].filter(Boolean).join(', '));
   set('#s-type', ans.type); set('#s-beds', ans.beds); set('#s-plan', ans.plan);
 }
 
-function show(n: number) {
+function show(n: number, focus = true) {
   cur = n;
   steps.forEach((s) => {
     const on = +s.dataset.step! === n;
@@ -36,15 +36,17 @@ function show(n: number) {
   $('#vback').hidden = n === 1;
   $('#vnext').textContent = n === 5 ? 'Request valuation' : 'Continue';
   const off = n > 1 && n < 5 && !chosen();
-  $('#vnext').setAttribute('aria-disabled', String(off));
-  const first = steps.find((s) => +s.dataset.step! === n)!.querySelector<HTMLElement>('input,select,.vopt');
-  first?.focus({ preventScroll: true });
+  $('#vnext').setAttribute('aria-disabled', String(off || n === 5));
+  // Request valuation is a demo action: on the last step the button stays visible, faded and inactive
+  $<HTMLButtonElement>('#vnext').disabled = n === 5;
+  const first = steps.find((s) => +s.dataset.step! === n)!.querySelector<HTMLElement>('input,.combo-btn,.vopt');
+  if (focus) first?.focus({ preventScroll: true });
   scrollTo(0, 0);
 }
 
 function validate(): boolean {
   if (cur === 1) {
-    const a = $<HTMLInputElement>('#va').value.trim(), r = $<HTMLSelectElement>('#vr').value, c = $<HTMLInputElement>('#vc').value.trim();
+    const a = $<HTMLInputElement>('#va').value.trim(), r = comboValue($('#vr')), c = $<HTMLInputElement>('#vc').value.trim();
     errs('va', a ? '' : 'Please add the street address.', '#va');
     errs('vr', r ? '' : 'Please choose an area.', '#vr');
     const cOk = !c || /^[A-Z]\d{2}\s?[A-Z0-9]{4}$/i.test(c);
@@ -54,37 +56,13 @@ function validate(): boolean {
     if (!cOk) { $('#vc').focus(); return false; }
     return true;
   }
-  if (cur < 5) return !!chosen();
-  const n = $<HTMLInputElement>('#vn').value.trim(), p = $<HTMLInputElement>('#vp').value.trim(), e = $<HTMLInputElement>('#ve').value.trim();
-  const pOk = p.replace(/\D/g, '').length >= 7, eOk = /^\S+@\S+\.\S+$/.test(e);
-  errs('vn', n ? '' : 'Please tell us your name.', '#vn');
-  errs('vp', pOk || eOk ? '' : 'Add a phone number or an email so we can reach you.', '#vp');
-  errs('ve', !e || eOk ? '' : "That email address doesn't look right.", '#ve');
-  if (!n) { $('#vn').focus(); return false; }
-  if (!pOk && !eOk) { $('#vp').focus(); return false; }
-  if (e && !eOk) { $('#ve').focus(); return false; }
-  return true;
-}
-
-function finish() {
-  const r = $<HTMLSelectElement>('#vr').value;
-  const el = r === 'elsewhere';
-  const area = areas.find((a) => a.slug === r);
-  $('#vdone-t').textContent = el
-    ? "We'll call to see if we can help in your area."
-    : `Someone who sells homes in ${area!.name} will ring you to arrange a time to see the house. The valuation is free and you are under no obligation.`;
-  const a = $<HTMLAnchorElement>('#vdone-a');
-  a.textContent = el ? 'See our areas' : `What's selling in ${area!.name}`;
-  a.href = el ? '/areas/' : `/areas/#${r}`;
-  $('#vform').hidden = true; $('#vdone').hidden = false;
-  $('.vprog')?.setAttribute('hidden', '');
-  scrollTo(0, 0);
+  return !!chosen();
 }
 
 $('#vform').addEventListener('submit', (e) => {
   e.preventDefault();
   if (!validate()) return;
-  if (cur === 5) openConcept('valuation', finish); else show(cur + 1);
+  if (cur < 5) show(cur + 1);
 });
 $('#vnext').addEventListener('click', (e) => { if ($('#vnext').getAttribute('aria-disabled') === 'true') e.preventDefault(); });
 $('#vback').addEventListener('click', () => show(cur - 1));
@@ -96,4 +74,5 @@ document.querySelectorAll<HTMLElement>('.vopt').forEach((b) => b.addEventListene
 }));
 ['#va', '#vr'].forEach((s) => $(s).addEventListener('input', summary));
 $('#vform').addEventListener('change', summary);
-show(1);
+// nothing looks selected on load: the first field gets focus only from step 2 on
+show(1, false);

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { areas } from '../lib/data';
+import Combo from '../components/Combo.astro';
 const types = ['Terraced house', 'Semi-detached', 'Detached', 'Apartment', 'Cottage or mews', 'Other'];
 const beds = ['1', '2', '3', '4', '5 or more'];
 const plans = ['Selling', 'Letting', 'Not sure yet', 'Just curious about value'];
@@ -21,8 +22,7 @@ const opt = (list: string[], key: string) => list.map((t) => ({ t, key }));
         <section class="vs" data-step="1">
           <h1 class="vh">Where is your home?</h1>
           <div class="field"><label for="va">Street address</label><input id="va" class="input" autocomplete="street-address" aria-describedby="e-va" /><span class="err" id="e-va" aria-live="polite"></span></div>
-          <div class="field"><label for="vr">Area</label>
-            <select id="vr" class="input" aria-describedby="e-vr"><option value="">Choose an area</option>{areas.map((a) => <option value={a.slug}>{a.name}</option>)}<option value="elsewhere">Elsewhere in Dublin</option></select>
+          <div class="field"><Combo id="vr" label="Area" placeholder="Choose an area" describedby="e-vr" options={[...areas.map((a) => ({ v: a.slug, t: a.name })), { v: 'elsewhere', t: 'Elsewhere in Dublin' }]} />
             <span class="err" id="e-vr" aria-live="polite"></span></div>
           <div class="field"><label for="vc">Eircode (optional)</label><input id="vc" class="input" autocomplete="postal-code" aria-describedby="e-vc" /><span class="err" id="e-vc" aria-live="polite"></span></div>
         </section>
@@ -49,15 +49,6 @@ const opt = (list: string[], key: string) => list.map((t) => ({ t, key }));
         </div>
       </form>
 
-      <section id="vdone" hidden>
-        <p class="eyebrow">Request received</p>
-        <h1 class="vh" style="font-size:clamp(44px,5.6vw,72px);margin-top:16px">Thank you.<br />We'll call within 48 hours.</h1>
-        <p class="lead" id="vdone-t" style="margin-top:28px;max-width:560px"></p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px">
-          <a class="btn btn-lg" id="vdone-a" href="/areas/">See our areas</a>
-          <a class="btn btn-ghost btn-lg" href="/">Back to home</a>
-        </div>
-      </section>
     </div>
 
     <aside class="vsum" id="vsum">

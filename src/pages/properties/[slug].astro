@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Img from '../../components/Img.astro';
 import Ber from '../../components/Ber.astro';
+import Combo from '../../components/Combo.astro';
 import { listings, areaBySlug, priceText, similar, walkMin } from '../../lib/data';
 import { PHONE } from '../../config/site';
 
@@ -83,17 +84,11 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
             <div class="field" style="margin-top:22px"><span class="lbl" id="daylbl">Day</span>
               <div class="days" id="days" role="radiogroup" aria-labelledby="daylbl" aria-describedby="e-day"></div>
               <span class="err" id="e-day" aria-live="polite"></span></div>
-            <div class="field"><label for="tod">Time of day</label>
-              <select id="tod" class="input"><option>Morning</option><option selected>Afternoon</option><option>Evening</option></select></div>
+            <div class="field"><Combo id="tod" label="Time of day" placeholder="Choose a time" options={['Morning', 'Afternoon', 'Evening'].map((t) => ({ v: t, t }))} /></div>
             <div class="field"><label for="bn">Name</label><input id="bn" class="input" autocomplete="name" aria-describedby="e-name" /><span class="err" id="e-name" aria-live="polite"></span></div>
             <div class="field"><label for="bp">Phone</label><input id="bp" class="input" type="tel" autocomplete="tel" aria-describedby="e-phone" /><span class="err" id="e-phone" aria-live="polite"></span></div>
             <div class="field"><label for="be">Email</label><input id="be" class="input" type="email" autocomplete="email" aria-describedby="e-email" /><span class="err" id="e-email" aria-live="polite"></span></div>
-            <button type="submit" class="btn btn-block">Request viewing</button>
-          </div>
-          <div id="bdone" hidden>
-            <h2 class="bt">Request sent.</h2>
-            <p id="bdone-t" style="font-size:15px;margin-top:10px;color:var(--text-2)"></p>
-            <a href="/properties/" class="btn btn-ghost" style="margin-top:22px">Back to properties</a>
+            <button type="submit" class="btn btn-block" disabled>Request viewing</button>
           </div>
           <p class="orcall meta">Or call <a href={tel} class="link-u" style="color:var(--ink)">{PHONE}</a></p>
         </form>
@@ -180,7 +175,7 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
 <style is:global>
 .ltop{padding-top:134px}
 .crumbs{padding:8px 0 28px}
-.crumbs a:hover{text-decoration:underline}
+@media (hover:hover) and (pointer:fine){.crumbs a:hover{text-decoration:underline}}
 .lhead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
 .lh1{font-size:clamp(44px,5.3vw,76px);line-height:1;margin-top:14px}
 .strip5{margin:36px 0 0;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
@@ -216,7 +211,8 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
 .poil{border-top:1px solid var(--ink)}
 .poil li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 12px;border-bottom:1px solid var(--line)}
 .poil li[hidden]{display:none}
-.poil li:hover,.poil li:focus-visible{background:var(--soft)}
+.poil li:focus-visible{background:var(--soft)}
+@media (hover:hover) and (pointer:fine){.poil li:hover{background:var(--soft)}}
 .poil strong{display:block;font-weight:600;font-size:16px}
 .poil span{font-size:14px;color:var(--text-3)}
 .poil .wm{white-space:nowrap;color:var(--text-2)}
@@ -230,7 +226,7 @@ const data = { lat: l.lat, lng: l.lng, address: l.address, pois: pois.map((p, i)
 .simcard img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:16px}
 .simcard strong{display:block;margin-top:14px;font:600 18px/1.3 var(--font-body)}
 .simcard span{font-size:15px;color:var(--text-3)}
-.simcard:hover strong{text-decoration:underline;text-underline-offset:4px}
+@media (hover:hover) and (pointer:fine){.simcard:hover strong{text-decoration:underline;text-underline-offset:4px}}
 .mbar{display:none}
 @media (max-width:1100px){
   .lgrid{grid-template-columns:1fr;gap:0}

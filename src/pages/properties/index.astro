@@ -13,7 +13,8 @@ const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
 
   <div class="wrap" style="margin-top:56px">
     <div class="fbar" id="fbar">
-      <div class="seg" role="group" aria-label="Sale or rent">
+      <div class="seg" id="seg" role="group" aria-label="Sale or rent">
+        <span class="seg-ind" aria-hidden="true"></span>
         <button type="button" data-status="sale" aria-pressed="true">For sale</button>
         <button type="button" data-status="rent" aria-pressed="false">To rent</button>
       </div>
@@ -82,6 +83,7 @@ const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
 .seg{display:inline-flex;height:60px;border:1px solid var(--line-strong);border-radius:999px;padding:4px;gap:4px}
 .seg button{padding:0 24px;border-radius:999px;font:600 15px/1 var(--font-body);min-width:44px}
 .seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.seg-ind{display:none}
 .filters{display:contents}
 .fhead,.ffoot,.fopen{display:none}
 .fdd{display:contents}
@@ -96,7 +98,8 @@ const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
 .dd-grp{flex:1;min-width:200px}
 .dd-grp .gl{font:600 12px/1 var(--font-body);color:var(--text-3);padding:10px 14px 6px;letter-spacing:.04em}
 .dd-opt{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:44px;padding:0 14px;border-radius:12px;font:500 15px/1 var(--font-body);text-align:left}
-.dd-opt:hover,.dd-opt:focus-visible{background:var(--soft)}
+.dd-opt:focus-visible{background:var(--soft)}
+@media (hover:hover) and (pointer:fine){.dd-opt:hover{background:var(--soft)}}
 .dd-opt[aria-selected=true]{background:var(--soft);font-weight:600}
 .dd-opt[aria-selected=true]::after{content:'✓'}
 .rbar{margin-top:40px;padding-bottom:18px;border-bottom:1px solid var(--ink);display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px}
@@ -125,6 +128,7 @@ const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
   .prow:hover .ph2,.prow:focus-visible .ph2{opacity:1;transform:translate(14px,2px) rotate(3deg) scale(.9);box-shadow:0 6px 18px rgba(14,14,14,.12)}
 }
 @media (prefers-reduced-motion:reduce){
+  .seg.slide.ready .seg-ind,.seg.slide.ready button{transition:none}
   .prow:hover .ph1,.prow:hover .ph2,.prow:hover .ph3,.prow:focus-visible .ph1,.prow:focus-visible .ph2,.prow:focus-visible .ph3{transform:none!important;box-shadow:none!important}
   .prow:hover .ph2,.prow:hover .ph3,.prow:focus-visible .ph2,.prow:focus-visible .ph3{opacity:0!important}
 }
@@ -176,6 +180,13 @@ const cfg = { areas: areas.map((a) => ({ v: a.slug, t: a.name })) };
   .plist{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
 }
 @media (max-width:768px){
+  /* For sale / To rent: one ink pill slides between the two (properties.ts sets --x / --w; .slide once placed) */
+  .seg.slide{position:relative}
+  .seg.slide .seg-ind{display:block;position:absolute;top:4px;bottom:4px;left:0;width:var(--w);transform:translateX(var(--x));border-radius:999px;background:var(--ink)}
+  .seg.slide.ready .seg-ind{transition:transform 360ms var(--ease),width 360ms var(--ease)}
+  .seg.slide button{position:relative;z-index:1;background:transparent}
+  .seg.slide.ready button{transition:color 360ms var(--ease)}
+  .seg.slide button[aria-pressed=true]{background:transparent;color:#fff}
   .filters{padding-top:calc(20px + env(safe-area-inset-top))}
   .ffoot{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
 }

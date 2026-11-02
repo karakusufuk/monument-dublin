@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { areas, office } from '../lib/data';
 import { PHONE, EMAIL, OFFICE, HOURS } from '../config/site';
+import Combo from '../components/Combo.astro';
 const tel = `tel:${PHONE.replace(/\s/g, '')}`;
 const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
 ---
@@ -14,7 +15,7 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
       <dl class="ct-info">
         <div><dt>Phone</dt><dd><a href={tel}>{PHONE}</a></dd></div>
         <div><dt>Email</dt><dd><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd></div>
-        <div><dt>Office</dt><dd><a href="#directions" data-concept="address">{OFFICE}</a></dd></div>
+        <div><dt>Office</dt><dd><a href="#directions" data-demo>{OFFICE}</a></dd></div>
         <div><dt>Hours</dt><dd>{HOURS.map((h) => <span>{h}</span>)}</dd></div>
       </dl>
       <div class="map ct-map" id="ctmap" data-lat={office.lat} data-lng={office.lng}></div>
@@ -24,7 +25,7 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
         <div id="cin">
           <div class="field"><span class="lbl" id="intl">I'm interested in</span>
             <div class="days" role="radiogroup" aria-labelledby="intl" id="ints">
-              {interests.map((t, i) => <button type="button" class="chip" role="radio" aria-checked={i === 0 ? 'true' : 'false'} data-v={t}>{t}</button>)}
+              {interests.map((t) => <button type="button" class="chip" role="radio" aria-checked="false" data-v={t}>{t}</button>)}
             </div>
             <p class="meta" id="selnote" style="font-size:14px;margin-top:10px" hidden>For a valuation, use our two-minute form <a href="/valuation/" class="link-u" style="color:var(--ink)">→</a></p>
           </div>
@@ -33,15 +34,10 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
             <div class="field"><label for="cp">Phone</label><input id="cp" class="input" type="tel" autocomplete="tel" aria-describedby="e-cp" /><span class="err" id="e-cp" aria-live="polite"></span></div>
           </div>
           <div class="field"><label for="ce">Email</label><input id="ce" class="input" type="email" autocomplete="email" aria-describedby="e-ce" /><span class="err" id="e-ce" aria-live="polite"></span></div>
-          <div class="field"><label for="ca">Area</label>
-            <select id="ca" class="input"><option>Any of the six</option>{areas.map((a) => <option>{a.name}</option>)}<option>Not sure yet</option></select></div>
+          <div class="field"><Combo id="ca" label="Area" placeholder="Any of the six" options={['Any of the six', ...areas.map((a) => a.name), 'Not sure yet'].map((t) => ({ v: t, t }))} /></div>
           <div class="field"><label for="cm">Message <span style="font-weight:400;color:var(--text-3)">(optional)</span></label><textarea id="cm" class="input"></textarea></div>
-          <button type="submit" class="btn btn-lg">Send</button>
+          <button type="submit" class="btn btn-lg" disabled>Send</button>
           <p class="meta" style="font-size:13px;margin-top:16px">We only use your details to reply to you.</p>
-        </div>
-        <div id="cdone" hidden aria-live="polite">
-          <h2 id="cdone-h" style="font-size:40px;line-height:1.1"></h2>
-          <p id="cdone-t" style="margin-top:14px;color:var(--text-2)"></p>
         </div>
       </form>
     </div>
@@ -57,7 +53,7 @@ const interests = ['Buying', 'Selling', 'Renting', 'Letting my home'];
 .ct-info dt{color:var(--text-3)}
 .ct-info dd{margin:0;font-weight:500;text-align:right}
 .ct-info dd span{display:block}
-.ct-info a:hover{text-decoration:underline}
+@media (hover:hover) and (pointer:fine){.ct-info a:hover{text-decoration:underline}}
 .ct-map{margin-top:40px;aspect-ratio:480/260;border-radius:20px}
 .ct-box{border:1px solid var(--line);border-radius:28px;padding:40px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
