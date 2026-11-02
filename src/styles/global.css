@@ -64,7 +64,7 @@ textarea.input{padding:14px 16px;min-height:140px;resize:vertical}
 .combo-lb li.act{background:var(--soft)}
 .combo-lb li[aria-selected=true]{background:var(--soft);font-weight:600}
 .combo-lb li[aria-selected=true]::after{content:'✓'}
-@media (hover:hover) and (pointer:fine){.combo-lb li:hover{background:var(--soft)}}
+@media (hover:hover) and (pointer:fine){.combo-lb:not(.still) li:hover{background:var(--soft)}}
 .input[aria-invalid=true]{border:1.5px solid var(--ink)}
 .err{display:block;margin-top:6px;font-size:13px;color:var(--ink);min-height:0}
 .err:empty{display:none}

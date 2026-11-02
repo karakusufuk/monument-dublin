@@ -2,6 +2,8 @@
 // Tap / click: opens, a tap on an option picks it and closes, a tap outside closes. Nothing is highlighted on open.
 // Keyboard: Enter / Space / ↓ / ↑ open; ↑ ↓ Home End and a typed letter move; Enter / Space pick; Esc and Tab close.
 let openBtn: HTMLButtonElement | null = null;
+// pointer position (last seen, and when the list opened): a list scrolled under a resting cursor must not light up an option
+let lastX = -1, lastY = -1, px = -1, py = -1;
 
 export const comboValue = (el: HTMLElement) => el.dataset.value ?? '';
 
@@ -39,6 +41,8 @@ function open(btn: HTMLButtonElement, active = -1) {
   if (openBtn && openBtn !== btn) close(openBtn);
   const { lb } = parts(btn);
   lb.hidden = false;
+  lb.classList.add('still');
+  px = lastX; py = lastY;
   btn.setAttribute('aria-expanded', 'true');
   openBtn = btn;
   setActive(btn, active);
@@ -79,6 +83,9 @@ function init(root: HTMLElement) {
   // the label works like a <label for>: it opens the list
   document.getElementById(`${btn.id}-l`)?.addEventListener('click', () => { btn.focus(); open(btn, selected()); });
 
+  // hover shows only once the pointer itself moves over the list (not when the page scrolls the list under it)
+  lb.addEventListener('pointermove', (e) => { if (Math.abs(e.clientX - px) + Math.abs(e.clientY - py) > 2) lb.classList.remove('still'); });
+
   // listener on the list itself (not delegated to document) so iOS fires it on the first tap
   lb.addEventListener('click', (e) => {
     const o = (e.target as HTMLElement).closest<HTMLLIElement>('[role=option]');
@@ -115,6 +122,9 @@ function init(root: HTMLElement) {
 }
 
 document.querySelectorAll<HTMLElement>('[data-combo]').forEach(init);
+const track = (e: PointerEvent) => { lastX = e.clientX; lastY = e.clientY; };
+addEventListener('pointerdown', track, { capture: true, passive: true });
+addEventListener('pointermove', track, { capture: true, passive: true });
 document.addEventListener('click', (e) => {
   if (openBtn && !openBtn.closest('[data-combo]')!.contains(e.target as Node) && (e.target as HTMLElement).id !== `${openBtn.id}-l`) close(openBtn);
 });
